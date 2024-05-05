@@ -5,16 +5,16 @@
 package repositories;
 
 import java.util.List;
-import models.Cliente;
+import models.Producto;
 
 /**
  *
  * @author Christopher
  */
-public class ClienteRepository implements Repository<Cliente> {
+public class ProductoRepository implements Repository<Producto> {
 
     @Override
-    public Cliente create(Cliente record) {
+    public Producto create(Producto record) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -24,18 +24,18 @@ public class ClienteRepository implements Repository<Cliente> {
     }
 
     @Override
-    public Cliente update(int id, Cliente record) {
+    public Producto update(int id, Producto record) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<Cliente> findAll() {
+    public List<Producto> findAll() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Cliente findById(int id) {
+    public Producto findById(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
 }
