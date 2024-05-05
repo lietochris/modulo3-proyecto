@@ -8,12 +8,12 @@ package models;
  *
  * @author Christopher
  */
-public record Cliente(
-        int idCliente,
+public record Proveedor(
+        int idProveedor,
         String nombre,
-        String apellidoPaterno,
-        String apellidoMaterno,
+        String telefono,
         String fechaCreacion,
-        String fechaNacimiento) {
+        String correo,
+        Estatus estatus) {
 
 }
