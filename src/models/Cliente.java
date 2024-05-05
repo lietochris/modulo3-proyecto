@@ -4,6 +4,9 @@
  */
 package models;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Christopher
@@ -13,7 +16,7 @@ public record Cliente(
         String nombre,
         String apellidoPaterno,
         String apellidoMaterno,
-        String fechaCreacion,
-        String fechaNacimiento) {
+        LocalDateTime fechaCreacion,
+        LocalDate fechaNacimiento) {
 
 }
