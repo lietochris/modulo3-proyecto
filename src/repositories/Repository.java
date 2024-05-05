@@ -13,13 +13,13 @@ import java.util.List;
  */
 public interface Repository<T> {
 
-    public T create(T record);
+    public T create(T record) throws Exception;
 
-    public void delete(int id);
+    public void delete(int id) throws Exception;
 
-    public T update(int id, T record);
+    public T update(int id, T record) throws Exception;
 
-    public List<T> findAll();
+    public List<T> findAll() throws Exception;
 
-    public T findById(int id);
+    public T findById(int id) throws Exception;
 }
