@@ -4,15 +4,18 @@
  */
 package models;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Christopher
  */
 public record Empleado(
         int idEmpleado,
+        String nombre,
         String apellidoPaterno,
         String apellidoMaterno,
         String correo,
-        String fechaInicio) {
+        LocalDate fechaInicio) {
 
 }
