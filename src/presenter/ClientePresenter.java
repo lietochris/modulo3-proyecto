@@ -8,91 +8,94 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Cliente;
 import repositories.ClienteRepository;
+import utils.Result;
+import utils.Error;
 
 /**
  *
  * @author Mayte Chavez Salazar
  */
 public class ClientePresenter {
-    
-        private ClienteRepository repositorio;
-    
+
+    private final ClienteRepository repositorio;
+
     /*
     Constructor 
-    */
+     */
     public ClientePresenter(ClienteRepository clienteRepository) {
         this.repositorio = clienteRepository;
     }
-    
+
     /*
     Obtiene todos los registros
-    */
+     */
+    public List<Cliente> FindAll() {
+        var result = this.repositorio.findAll();
+        if (!result.isError()) {
+            return new ArrayList();
+        }
 
-    public List<Cliente> FindAll(){
-            List<Cliente> clientes = new ArrayList<>();
-    try {
-        clientes = this.repositorio.findAll();
-    } catch (Exception e) {
+        return result.value();
+    }
 
-    }
-    return clientes;
-    }
-    
     /*
     Obtiene el cliente por Id 
-    */
-    public Cliente FindById(int id){
-        Cliente cliente = this.FindById(id);     
-        return cliente;
+     */
+    public Result<Cliente> FindById(int id) throws Exception {
+        var result = this.repositorio.findById(id);
+
+        if (result.isError()) {
+            return new Result(result.error());
+        }
+        return new Result(result.value());
     }
-    
-    
+
     /*
     Crea un nuevo cliente
-    */
-    public String CreateClient(Cliente nuevoCliente){
-        var message = "";
-        try{
-        var cliente = this.repositorio.findById(nuevoCliente.idCliente());
-        
-        if(cliente != null){
-            message = "El cliente ya existe";
-            
-            return message;
-        }else{
-            this.repositorio.create(cliente);
-            message = "El cliente fue registrado con exito";
-            
-            return message;
+     */
+    public Result<String> CreateClient(Cliente nuevoCliente) {
+        var result = this.repositorio.findById(nuevoCliente.idCliente());
+
+        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
+            return new Result(Error.make("CLIENT_EXISTS", "El cliente ya existe"));
         }
-        
-        } catch (Exception ex){
-            message = ex.toString(); 
-            return message;
-        }
+        this.repositorio.create(result.value());
+
+        return new Result("Creado correctamente");
+
     }
-    
+
     /*
     Elimina a un cliente por medio del id que recibe del parametro
-    */
-    public void DeleteClient(int id){
-        this.DeleteClient(id);
+     */
+    public Result<String> DeleteClient(int id) {
+        var result = this.repositorio.findById(id);
+
+        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
+            return new Result(Error.make("CLIENT_NOT_EXISTS", "El cliente no existe"));
+        }
+        return new Result("Elimiando correctamente");
     }
-    
+
     /*
     Actualiza los datos de un cliente
-    */
-    public Cliente UpdateClient(int id, Cliente cliente){
-        Cliente clienteActualizado = this.UpdateClient(id, cliente);
-        return clienteActualizado;
+     */
+    public Result<Cliente> UpdateClient(int id, Cliente cliente) {
+        var result = this.repositorio.findById(id);
+
+        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
+            return new Result(Error.make("CLIENT_NOT_EXISTS", "El cliente no existe"));
+        }
+
+        var clienteActualizado = this.repositorio.update(id, cliente);
+        return new Result(clienteActualizado);
     }
-    
+
     /*
     Crea un reporte
-    */
-    public void CreateReport(){ 
-        
+     */
+    public void CreateReport() {
+
     }
-    
-    
+
 }

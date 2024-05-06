@@ -5,6 +5,7 @@
 package repositories;
 
 import java.util.List;
+import utils.Result;
 
 /**
  *
@@ -13,13 +14,13 @@ import java.util.List;
  */
 public interface Repository<T> {
 
-    public T create(T record) throws Exception;
+    public Result<T> create(T record);
 
-    public void delete(int id) throws Exception;
+    public Result<Boolean> delete(int id);
 
-    public T update(int id, T record) throws Exception;
+    public Result<T> update(int id, T record);
 
-    public List<T> findAll() throws Exception;
+    public Result<List<T>> findAll();
 
-    public T findById(int id) throws Exception;
+    public Result<T> findById(int id);
 }

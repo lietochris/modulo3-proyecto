@@ -4,13 +4,18 @@
  */
 package repositories;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Cliente;
 import utils.Database;
+import utils.Result;
+import utils.Error;
 
 /**
  *
@@ -25,109 +30,135 @@ public class ClienteRepository implements Repository<Cliente> {
     }
 
     @Override
-    public Cliente create(Cliente record) throws Exception {
-        this.database.context().connect();
-        var query = "INSERT INTO Cliente (idCliente, NombreCliente, ApellidoP, ApellidoM, FechaCreacion, FechaNacimiento) VALUES (?, ?, ?, ?, ?, ?)";
-        var statement = this.database.context().connection().prepareStatement(query);
-        statement.setString(1, String.valueOf(record.idCliente()));
-        statement.setString(2, record.nombre());
-        statement.setString(3, record.apellidoPaterno());
-        statement.setString(4, record.apellidoMaterno());
-        statement.setString(5, record.fechaCreacion().toString());
-        statement.setString(6, record.fechaNacimiento().toString());
+    public Result<Cliente> create(Cliente record) {
+        try {
+            this.database.context().connect();
+            var query = "INSERT INTO Cliente (idCliente, NombreCliente, ApellidoP, ApellidoM, FechaCreacion, FechaNacimiento) VALUES (?, ?, ?, ?, ?, ?)";
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, String.valueOf(record.idCliente()));
+            statement.setString(2, record.nombre());
+            statement.setString(3, record.apellidoPaterno());
+            statement.setString(4, record.apellidoMaterno());
+            statement.setString(5, record.fechaCreacion().toString());
+            statement.setString(6, record.fechaNacimiento().toString());
 
-        statement.execute();
+            statement.execute();
 
-        this.database.context().disconnect();
-        return record;
+            this.database.context().disconnect();
+            return new Result(record);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("EXCEPTION", ex.toString()));
+        }
     }
 
     @Override
-    public void delete(int id) throws Exception {
-        this.database.context().connect();
-        var query = "DELETE FROM Cliente WHERE idCliente = ?";
-        var statement = this.database.context().connection().prepareStatement(query);
-        statement.setString(1, String.valueOf(id));
-        statement.execute();
-        this.database.context().disconnect();
+    public Result<Boolean> delete(int id) {
+        try {
+            this.database.context().connect();
+            var query = "DELETE FROM Cliente WHERE idCliente = ?";
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, String.valueOf(id));
+            statement.execute();
+            this.database.context().disconnect();
+            return new Result(true);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("EXCEPTION", ex.toString()));
+        }
 
     }
 
     @Override
-    public Cliente update(int id, Cliente record) throws Exception {
-        this.database.context().connect();
-        var query = "UPDATE Cliente SET NombreCliente=?, ApellidoP=?, ApellidoM=?, FechaCreacion=?, FechaNacimiento=? WHERE idCliente=?";
+    public Result<Cliente> update(int id, Cliente record) {
+        try {
+            this.database.context().connect();
+            var query = "UPDATE Cliente SET NombreCliente=?, ApellidoP=?, ApellidoM=?, FechaCreacion=?, FechaNacimiento=? WHERE idCliente=?";
 
-        var statement = this.database.context().connection().prepareStatement(query);
-        statement.setString(1, record.nombre());
-        statement.setString(2, record.apellidoPaterno());
-        statement.setString(3, record.apellidoMaterno());
-        statement.setString(4, record.fechaCreacion().toString());
-        statement.setString(5, record.fechaNacimiento().toString());
-        statement.setString(6, String.valueOf(id));
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, record.nombre());
+            statement.setString(2, record.apellidoPaterno());
+            statement.setString(3, record.apellidoMaterno());
+            statement.setString(4, record.fechaCreacion().toString());
+            statement.setString(5, record.fechaNacimiento().toString());
+            statement.setString(6, String.valueOf(id));
 
-        statement.execute();
+            statement.execute();
 
-        this.database.context().disconnect();
-        return new Cliente(
-                id,
-                record.nombre(),
-                record.apellidoPaterno(),
-                record.apellidoMaterno(),
-                record.fechaCreacion(),
-                record.fechaNacimiento()
-        );
+            this.database.context().disconnect();
+            return new Result(new Cliente(
+                    id,
+                    record.nombre(),
+                    record.apellidoPaterno(),
+                    record.apellidoMaterno(),
+                    record.fechaCreacion(),
+                    record.fechaNacimiento()
+            ));
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("EXCEPTION", ex.toString()));
+        }
     }
 
     @Override
-    public List<Cliente> findAll() throws Exception {
-        this.database.context().connect();
+    public Result<List<Cliente>> findAll() {
+        try {
+            this.database.context().connect();
 
-        var query = "SELECT * FROM Cliente";
-        var statement = this.database.context().connection().prepareStatement(query);
-        var result = statement.executeQuery();
+            var query = "SELECT * FROM Cliente";
+            var statement = this.database.context().connection().prepareStatement(query);
+            var result = statement.executeQuery();
 
-        var listOfClientes = new ArrayList<Cliente>();
-        while (result.next()) {
-            listOfClientes.add(new Cliente(
+            var listOfClientes = new ArrayList<Cliente>();
+            while (result.next()) {
+                listOfClientes.add(new Cliente(
+                        result.getInt("idCliente"),
+                        result.getString("NombreCliente"),
+                        result.getString("ApellidoP"),
+                        result.getString("ApellidoM"),
+                        LocalDateTime.parse(result.getString("FechaCreacion"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                        LocalDate.parse(result.getString("FechaNacimiento"))
+                ));
+
+            }
+            this.database.context().disconnect();
+            return new Result(listOfClientes);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("EXCEPTION", ex.toString()));
+        }
+    }
+
+    @Override
+    public Result<Cliente> findById(int id) {
+        try {
+            this.database.context().connect();
+            var query = "SELECT * FROM Cliente WHERE idCliente=?";
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, String.valueOf(id));
+
+            var result = statement.executeQuery();
+
+            if (!result.next()) {
+                this.database.context().disconnect();
+                return new Result(Error.make("NOT_FOUND", "No se encontro el cliente"));
+            }
+
+            var cliente = new Cliente(
                     result.getInt("idCliente"),
                     result.getString("NombreCliente"),
                     result.getString("ApellidoP"),
                     result.getString("ApellidoM"),
                     LocalDateTime.parse(result.getString("FechaCreacion"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                     LocalDate.parse(result.getString("FechaNacimiento"))
-            ));
+            );
 
-        }
-        this.database.context().disconnect();
-        return listOfClientes;
-    }
-
-    @Override
-    public Cliente findById(int id) throws Exception {
-        this.database.context().connect();
-        var query = "SELECT * FROM Cliente WHERE idCliente=?";
-        var statement = this.database.context().connection().prepareStatement(query);
-        statement.setString(1, String.valueOf(id));
-
-        var result = statement.executeQuery();
-
-        if (!result.next()) {
             this.database.context().disconnect();
-            return null;
+            return new Result(cliente);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("EXCEPTION", ex.toString()));
         }
-
-        var cliente = new Cliente(
-                result.getInt("idCliente"),
-                result.getString("NombreCliente"),
-                result.getString("ApellidoP"),
-                result.getString("ApellidoM"),
-                LocalDateTime.parse(result.getString("FechaCreacion"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-                LocalDate.parse(result.getString("FechaNacimiento"))
-        );
-
-        this.database.context().disconnect();
-        return cliente;
     }
 
 }
