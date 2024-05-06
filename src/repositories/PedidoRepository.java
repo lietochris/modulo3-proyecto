@@ -6,6 +6,7 @@ package repositories;
 
 import java.util.List;
 import models.Pedido;
+import utils.Result;
 
 /**
  *
@@ -14,28 +15,28 @@ import models.Pedido;
 public class PedidoRepository implements Repository<Pedido> {
 
     @Override
-    public Pedido create(Pedido record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Pedido> create(Pedido record) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Boolean> delete(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Pedido update(int id, Pedido record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Pedido> update(int id, Pedido record) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Pedido> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<List<Pedido>> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Pedido findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Pedido> findById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

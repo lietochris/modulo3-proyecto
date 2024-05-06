@@ -6,6 +6,7 @@ package repositories;
 
 import java.util.List;
 import models.Proveedor;
+import utils.Result;
 
 /**
  *
@@ -14,28 +15,28 @@ import models.Proveedor;
 public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
-    public Proveedor create(Proveedor record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Proveedor> create(Proveedor record) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Boolean> delete(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Proveedor update(int id, Proveedor record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Proveedor> update(int id, Proveedor record) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Proveedor> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<List<Proveedor>> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Proveedor findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Proveedor> findById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

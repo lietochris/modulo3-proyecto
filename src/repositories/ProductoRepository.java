@@ -6,6 +6,7 @@ package repositories;
 
 import java.util.List;
 import models.Producto;
+import utils.Result;
 
 /**
  *
@@ -14,28 +15,28 @@ import models.Producto;
 public class ProductoRepository implements Repository<Producto> {
 
     @Override
-    public Producto create(Producto record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Producto> create(Producto record) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Boolean> delete(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Producto update(int id, Producto record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Producto> update(int id, Producto record) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Producto> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<List<Producto>> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Producto findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Producto> findById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
