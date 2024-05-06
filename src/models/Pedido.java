@@ -4,6 +4,8 @@
  */
 package models;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Christopher
@@ -11,9 +13,9 @@ package models;
 public record Pedido(
         int idPedido,
         int cantidad,
-        String fechaCreacion,
         String observaciones,
         boolean entregado,
-        double totalPago) {
+        double totalPago,
+        LocalDateTime fechaCreacion) {
 
 }

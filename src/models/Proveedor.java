@@ -4,6 +4,8 @@
  */
 package models;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Christopher
@@ -12,8 +14,8 @@ public record Proveedor(
         int idProveedor,
         String nombre,
         String telefono,
-        String fechaCreacion,
         String correo,
-        Estatus estatus) {
+        Estatus estatus,
+        LocalDateTime fechaCreacion) {
 
 }

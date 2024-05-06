@@ -4,6 +4,8 @@
  */
 package models;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Christopher
@@ -14,6 +16,6 @@ public record Producto(
         int stock,
         double precio,
         String descripcion,
-        String fechaCreacion) {
+        LocalDateTime fechaCreacion) {
 
 }
