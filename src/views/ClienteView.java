@@ -4,6 +4,7 @@
  */
 package views;
 
+import presenter.ClientePresenter;
 import utils.Page;
 import utils.Router;
 
@@ -14,6 +15,7 @@ import utils.Router;
 public class ClienteView extends javax.swing.JFrame implements Page {
 
     private Router router;
+    private ClientePresenter presenter;
 
     /**
      * Creates new form ClienteView
@@ -92,6 +94,9 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         this.router = router;
     }
 
+    public void setPresenter(ClientePresenter presenter) {
+        this.presenter = presenter;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
