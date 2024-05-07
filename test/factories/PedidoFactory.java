@@ -5,11 +5,12 @@
 package factories;
 
 import com.github.javafaker.Faker;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
+
 import models.Pedido;
 
 /**
- *
  * @author Christopher
  */
 public class PedidoFactory {
@@ -21,17 +22,17 @@ public class PedidoFactory {
     }
 
     public static PedidoFactory run() {
-        return new EmpleadoFactory();
+        return new PedidoFactory();
     }
 
     public Pedido make() {
         return new Pedido(
                 this.faker.number().numberBetween(9000, 9999),
                 this.faker.number().numberBetween(0, 10),
-                this.faker.lorem().paragraph(),
-                this.faker.bool(),
+                this.faker.lorem().word(),
+                this.faker.bool().bool(),
                 this.faker.number().numberBetween(9000, 9999),
-                LocalDate.now()
+                LocalDateTime.now()
         );
     }
 

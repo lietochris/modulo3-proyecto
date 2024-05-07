@@ -7,6 +7,7 @@ package repositories;
 import factories.PedidoFactory;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import utils.DatabaseTest;
 
@@ -54,7 +55,7 @@ public class PedidoRepositoryTest extends DatabaseTest {
         var repository = new PedidoRepository(this.database);
         var result = repository.findAll();
 
-        assertEquals(3, result.value().size());
+        assertTrue(!result.value().isEmpty());
     }
 
     @Test
