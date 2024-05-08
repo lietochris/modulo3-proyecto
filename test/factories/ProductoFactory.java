@@ -5,11 +5,12 @@
 package factories;
 
 import com.github.javafaker.Faker;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
+
 import models.Producto;
 
 /**
- *
  * @author Christopher
  */
 public class ProductoFactory {
@@ -30,8 +31,8 @@ public class ProductoFactory {
                 this.faker.lorem().word(),
                 this.faker.number().numberBetween(0, 10),
                 this.faker.number().numberBetween(100, 500),
-                this.faker.lorem().paragraph(),
-                LocalDate.now()
+                this.faker.lorem().word(),
+                LocalDateTime.now()
         );
     }
 
