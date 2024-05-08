@@ -21,6 +21,8 @@ public class ClienteView extends javax.swing.JFrame implements Page {
      * Creates new form ClienteView
      */
     public ClienteView() {
+        //prueba commit
+        
         initComponents();
     }
 
