@@ -2,20 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Record.java to edit this template
  */
-package models;
-
-import java.time.LocalDateTime;
+package utils;
 
 /**
  *
  * @author Christopher
  */
-public record Producto(
-        int idProducto,
-        String nombre,
-        int stock,
-        double precio,
-        String descripcion,
-        LocalDateTime fechaCreacion) {
+public record Error(
+        String code,
+        String message) {
 
+    public static Error make(String code, String message) {
+        return new Error(code, message);
+    }
 }

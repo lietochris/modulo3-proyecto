@@ -4,6 +4,7 @@
  */
 package views;
 
+import presenter.LoginPresenter;
 import utils.Page;
 import utils.Router;
 
@@ -14,6 +15,7 @@ import utils.Router;
 public class LoginView extends javax.swing.JFrame implements Page {
 
     private Router router;
+    private LoginPresenter presenter;
 
     /**
      * Creates new form LoginView
@@ -92,6 +94,9 @@ public class LoginView extends javax.swing.JFrame implements Page {
         this.router = router;
     }
 
+    public void setPresenter(LoginPresenter presenter) {
+        this.presenter = presenter;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

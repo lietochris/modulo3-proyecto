@@ -4,7 +4,7 @@
  */
 package views;
 
-import presenter.ClientePresenter;
+import presenter.EmpleadoPresenter;
 import utils.Page;
 import utils.Router;
 
@@ -12,17 +12,15 @@ import utils.Router;
  *
  * @author Christopher
  */
-public class ClienteView extends javax.swing.JFrame implements Page {
-
+public class EmpleadoView extends javax.swing.JFrame implements Page {
+    
     private Router router;
-    private ClientePresenter presenter;
+    private EmpleadoPresenter presenter;
 
     /**
-     * Creates new form ClienteView
+     * Creates new form EmpleadoView
      */
-    public ClienteView() {
-        //prueba commit
-        
+    public EmpleadoView() {
         initComponents();
     }
 
@@ -68,35 +66,35 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClienteView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteView().setVisible(true);
+                new EmpleadoView().setVisible(true);
             }
         });
     }
 
     @Override
     public String pageName() {
-        return "ClienteView";
+       return "EmpleadoView";
     }
 
     @Override
     public void setRouter(Router router) {
-        this.router = router;
+      this.router = router;
     }
 
-    public void setPresenter(ClientePresenter presenter) {
+    public void setPresenter(EmpleadoPresenter presenter) {
         this.presenter = presenter;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
