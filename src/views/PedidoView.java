@@ -4,6 +4,7 @@
  */
 package views;
 
+import presenter.PedidoPresenter;
 import utils.Page;
 import utils.Router;
 
@@ -14,6 +15,7 @@ import utils.Router;
 public class PedidoView extends javax.swing.JFrame implements Page {
 
     private Router router;
+    private PedidoPresenter presenter;
 
     /**
      * Creates new form PedidoView
@@ -92,6 +94,9 @@ public class PedidoView extends javax.swing.JFrame implements Page {
         this.router = router;
     }
 
+    public void setPresenter(PedidoPresenter presenter) {
+        this.presenter = presenter;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

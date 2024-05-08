@@ -4,8 +4,15 @@
  */
 package repositories;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Empleado;
+import utils.Database;
+import utils.Result;
+import utils.Error;
 
 /**
  *
@@ -13,29 +20,141 @@ import models.Empleado;
  */
 public class EmpleadoRepository implements Repository<Empleado> {
 
-    @Override
-    public Empleado create(Empleado record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private final Database database;
+
+    public EmpleadoRepository(Database database) {
+        this.database = database;
     }
 
     @Override
-    public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Empleado> create(Empleado record) {
+        try {
+            this.database.context().connect();
+            var query = "INSERT INTO Empleado (idEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, Correo, FechaInicio) VALUES (?, ?, ?, ?, ?, ?);";
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, String.valueOf(record.idEmpleado()));
+            statement.setString(2, record.nombre());
+            statement.setString(3, record.apellidoPaterno());
+            statement.setString(4, record.apellidoMaterno());
+            statement.setString(5, record.correo());
+            statement.setString(6, record.fechaInicio().toString());
+
+            statement.execute();
+
+            this.database.context().disconnect();
+            return new Result(record);
+        } catch (Exception ex) {
+            Logger.getLogger(EmpleadoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+        }
     }
 
     @Override
-    public Empleado update(int id, Empleado record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Boolean> delete(int id) {
+        try {
+            this.database.context().connect();
+            var query = "DELETE FROM Empleado WHERE idEmpleado = ?";
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, String.valueOf(id));
+            statement.execute();
+            this.database.context().disconnect();
+            return new Result(true);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+        }
     }
 
     @Override
-    public List<Empleado> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<Empleado> update(int id, Empleado record) {
+        try {
+            this.database.context().connect();
+            var query = "UPDATE Empleado SET Nombre=?, ApellidoPaterno=?, ApellidoMaterno=?, Correo=?, FechaInicio=? WHERE idEmpleado=?";
+
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, record.nombre());
+            statement.setString(2, record.apellidoPaterno());
+            statement.setString(3, record.apellidoMaterno());
+            statement.setString(4, record.correo());
+            statement.setString(5, record.fechaInicio().toString());
+            statement.setString(6, String.valueOf(id));
+
+            statement.execute();
+
+            this.database.context().disconnect();
+            return new Result(new Empleado(
+                    id,
+                    record.nombre(),
+                    record.apellidoPaterno(),
+                    record.apellidoMaterno(),
+                    record.correo(),
+                    record.fechaInicio()
+            ));
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+        }
     }
 
     @Override
-    public Empleado findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<List<Empleado>> findAll() {
+        try {
+            this.database.context().connect();
+
+            var query = "SELECT * FROM Empleado";
+            var statement = this.database.context().connection().prepareStatement(query);
+            var result = statement.executeQuery();
+
+            var listOfClientes = new ArrayList<Empleado>();
+            while (result.next()) {
+                listOfClientes.add(new Empleado(
+                        result.getInt("idEmpleado"),
+                        result.getString("Nombre"),
+                        result.getString("ApellidoPaterno"),
+                        result.getString("ApellidoMaterno"),
+                        result.getString("Correo"),
+                        LocalDate.parse(result.getString("FechaInicio"))
+                ));
+
+            }
+            this.database.context().disconnect();
+            return new Result(listOfClientes);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+        }
     }
-    
+
+    @Override
+    public Result<Empleado> findById(int id) {
+        try {
+            this.database.context().connect();
+            var query = "SELECT * FROM Empleado WHERE idEmpleado=?";
+            var statement = this.database.context().connection().prepareStatement(query);
+            statement.setString(1, String.valueOf(id));
+
+            var result = statement.executeQuery();
+
+            if (!result.next()) {
+                this.database.context().disconnect();
+                return new Result(Error.make("NOT_FOUND", "No se encontro el empleado"));
+            }
+
+            var cliente = new Empleado(
+                    result.getInt("idEmpleado"),
+                    result.getString("Nombre"),
+                    result.getString("ApellidoPaterno"),
+                    result.getString("ApellidoMaterno"),
+                    result.getString("Correo"),
+                    LocalDate.parse(result.getString("FechaInicio"))
+            );
+
+            this.database.context().disconnect();
+            return new Result(cliente);
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+        }
+    }
+
 }

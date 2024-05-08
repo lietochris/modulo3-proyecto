@@ -23,7 +23,7 @@ public class ClienteRepositoryTest extends DatabaseTest {
         var repository = new ClienteRepository(this.database);
         var result = repository.create(cliente);
 
-        Assert.assertEquals(cliente, result);
+        Assert.assertEquals(cliente, result.value());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ClienteRepositoryTest extends DatabaseTest {
         var repository = new ClienteRepository(this.database);
         var result = repository.create(cliente);
 
-        repository.delete(result.idCliente());
+        repository.delete(result.value().idCliente());
 
         Assert.assertTrue(true);
     }
@@ -44,9 +44,9 @@ public class ClienteRepositoryTest extends DatabaseTest {
         var repository = new ClienteRepository(this.database);
         var result = repository.create(cliente);
 
-        var expected = repository.update(result.idCliente(), newCliente);
+        var expected = repository.update(result.value().idCliente(), newCliente);
 
-        Assert.assertEquals(expected.idCliente(), cliente.idCliente());
+        Assert.assertEquals(expected.value().idCliente(), cliente.idCliente());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ClienteRepositoryTest extends DatabaseTest {
         var repository = new ClienteRepository(this.database);
         var result = repository.findAll();
 
-        assertEquals(3, result.size());
+        assertEquals(3, result.value().size());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ClienteRepositoryTest extends DatabaseTest {
         var cliente = ClienteFactory.run().make();
         var repository = new ClienteRepository(this.database);
         var result = repository.create(cliente);
-        var expect = repository.findById(result.idCliente());
-        Assert.assertEquals(result.idCliente(), expect.idCliente());
+        var expect = repository.findById(result.value().idCliente());
+        Assert.assertEquals(result.value().idCliente(), expect.value().idCliente());
     }
 }

@@ -52,4 +52,11 @@ public class Router {
         this.redirect("HomeView");
     }
 
+    public void moveToEmpleadoView() {
+        this.redirect("EmpleadoView");
+    }
+
+    public void moveToProveedorView() {
+        this.redirect("ProveedorView");
+    }
 }
