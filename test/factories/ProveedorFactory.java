@@ -6,10 +6,11 @@ package factories;
 
 import com.github.javafaker.Faker;
 import java.time.LocalDate;
+
+import models.Estatus;
 import models.Proveedor;
 
 /**
- *
  * @author Christopher
  */
 public class ProveedorFactory {
@@ -30,7 +31,7 @@ public class ProveedorFactory {
                 this.faker.lorem().word(),
                 this.faker.phoneNumber().cellPhone(),
                 this.faker.internet().emailAddress(),
-                "Activo",
+                Estatus.Activo,
                 LocalDate.now()
         );
     }
