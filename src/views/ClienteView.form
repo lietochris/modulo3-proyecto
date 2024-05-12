@@ -112,17 +112,15 @@
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                                  <Component id="txtNombreCliente" min="-2" pref="125" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="txtApellidoP" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                              <Component id="txtNombreCliente" min="-2" pref="125" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="txtApellidoM" min="-2" pref="131" max="-2" attributes="0"/>
-                                          <Component id="txtFechaCreacion" alignment="0" min="-2" pref="131" max="-2" attributes="0"/>
+                                          <Component id="txtApellidoP" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="txtApellidoM" min="-2" pref="131" max="-2" attributes="0"/>
+                                      <Component id="txtFechaCreacion" alignment="0" min="-2" pref="131" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="txtFechaNacimiento" min="-2" pref="132" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
