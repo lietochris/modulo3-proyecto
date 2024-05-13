@@ -7,11 +7,15 @@ package repositories;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import models.Pedido;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.view.JasperViewer;
 import utils.Database;
 import utils.Error;
 import utils.Result;
@@ -155,6 +159,23 @@ public class PedidoRepository implements Repository<Pedido> {
         } catch (Exception ex) {
             Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
             return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+        }
+    }
+
+    @Override
+    public void generateReport() {
+            try {
+            this.database.context().connect();
+            
+            var report = JasperCompileManager.compileReport("src/reports/PedidoReport.jrxml");
+            
+            var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
+            var jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+            
+            this.database.context().disconnect();
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

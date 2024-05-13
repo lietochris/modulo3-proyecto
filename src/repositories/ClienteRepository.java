@@ -8,10 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Cliente;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.view.JasperViewer;
 import utils.Database;
 import utils.Result;
 import utils.Error;
@@ -157,6 +161,23 @@ public class ClienteRepository implements Repository<Cliente> {
         } catch (Exception ex) {
             Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
             return new Result(Error.make("EXCEPTION", ex.toString()));
+        }
+    }
+
+    @Override
+    public void generateReport() {
+        try {
+            this.database.context().connect();
+            
+            var report = JasperCompileManager.compileReport("src/reports/ClienteReport.jrxml");
+            
+            var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
+            var jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+            
+            this.database.context().disconnect();
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

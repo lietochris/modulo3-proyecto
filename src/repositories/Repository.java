@@ -23,4 +23,6 @@ public interface Repository<T> {
     public Result<List<T>> findAll();
 
     public Result<T> findById(int id);
+    
+    public void generateReport();
 }

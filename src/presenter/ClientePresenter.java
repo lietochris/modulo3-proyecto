@@ -5,15 +5,10 @@
 package presenter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import models.Cliente;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.view.JasperViewer;
 import repositories.ClienteRepository;
-import utils.Database;
 import utils.Result;
 import utils.Error;
 
@@ -23,14 +18,12 @@ import utils.Error;
  */
 public class ClientePresenter {
 
-    private final Database database;
     private final ClienteRepository repositorio;
 
     /*
     Constructor 
      */
-    public ClientePresenter(ClienteRepository clienteRepository, Database database) {
-        this.database = database;
+    public ClientePresenter(ClienteRepository clienteRepository) {
         this.repositorio = clienteRepository;
     }
 
@@ -102,17 +95,7 @@ public class ClientePresenter {
     Crea un reporte
      */
     public void CreateReport() throws JRException, Exception {
-
-        this.database.context().connect();
-
-        var report = JasperCompileManager.compileReport("src/reports/ClienteReport.jrxml");
-
-        var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
-        var jasperViewer = new JasperViewer(jasperPrint, false);
-        jasperViewer.setVisible(true);
-
-        this.database.context().disconnect();
-
+        this.repositorio.generateReport();
     }
 
 }
