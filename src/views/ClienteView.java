@@ -49,6 +49,73 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     // Crear y devolver un objeto Cliente con los datos obtenidos
     return new Cliente(idCliente, nombreCliente, apellidoP, apellidoM, fechaConHoraDefault, fechaNacimiento);
 }
+    
+    private boolean validarCampos(){
+                boolean correcto = true;
+        try {
+            Integer.parseInt(txtIdCliente.getText()); //numeros Enteros
+            //Float.parseFloat(txtCredito.getText());//nmeros decimales
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this,
+                    "Se debe introducir un valor entero para el id del Cliente",
+                    "Error en el campo ID Cliente",
+                    JOptionPane.ERROR_MESSAGE);
+            correcto = false;
+            return correcto;
+        }
+        if (txtNombreCliente.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Se deben introducir el nombre del cliente.",
+                    "Error en el campo nombres",
+                    JOptionPane.ERROR_MESSAGE);
+            correcto = false;
+            return correcto;
+        }
+ 
+        if (txtApellidoP.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Se deben introducir el Apellido Paterno del cliente.",
+                    "Error en el campo Apellido Paterno",
+                    JOptionPane.ERROR_MESSAGE);
+            correcto = false;
+            return correcto;
+        }
+        if (txtApellidoM.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Se deben introducir el Apellido Materno del cliente.",
+                    "Error en el campo Apellido Materno",
+                    JOptionPane.ERROR_MESSAGE);
+            correcto = false;
+            return correcto;
+        }
+ 
+/*        try {
+ 
+            Date fecha = new Date(jdcFechaCreacion.getDate().getTime());
+        } catch (Exception dte) {
+            JOptionPane.showMessageDialog(this,
+                    "Error, la fecha no es valida",
+                    "Error en el campo Fecha Registro",
+                    JOptionPane.ERROR_MESSAGE);
+ 
+            correcto = false;
+            return correcto;
+        }
+                try {
+ 
+            Date fecha = new Date(jdcFechaNacimiento.getDate().getTime());
+        } catch (Exception dte) {
+            JOptionPane.showMessageDialog(this,
+                    "Error, la fecha de nacimiento no es valida",
+                    "Error en el campo Fecha Nacimiento",
+                    JOptionPane.ERROR_MESSAGE);
+ 
+            correcto = false;
+            return correcto;
+        }
+ */
+        return correcto;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -288,20 +355,28 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Cliente nuevoCliente = obtenerDatosCliente();
         
-                // Llamar al método CreateClient del presentador
-        Result<String> resultado = presenter.CreateClient(nuevoCliente);
+        if (validarCampos()) {
+            Cliente nuevoCliente = obtenerDatosCliente();
+        
+                    // Llamar al método CreateClient del presentador
+            Result<String> resultado = presenter.CreateClient(nuevoCliente);
 
-        // Manejar el resultado devuelto por el método CreateClient
-        if (resultado.isError()) {
-            // Mostrar mensaje de error al usuario
-            JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            // Manejar el resultado devuelto por el método CreateClient
+            if (resultado.isError()) {
+                // Mostrar mensaje de error al usuario
+                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            } else {
+                // Mostrar mensaje de éxito al usuario
+                JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+            }
         } else {
-            // Mostrar mensaje de éxito al usuario
-            JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+            JOptionPane.showMessageDialog(this,
+                    "No se pueden guardar los datos del cliente.",
+                    "Error al guardar el cliente",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        
+                
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
