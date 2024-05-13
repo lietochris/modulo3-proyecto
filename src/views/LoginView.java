@@ -21,8 +21,6 @@ public class LoginView extends javax.swing.JFrame implements Page {
     private LoginPresenter presenter;
     private String usuario;
     private String contrasena;
-    private final Database database = new Database();
-    private final Properties configuration = null;
 
     /**
      * Creates new form LoginView
@@ -30,24 +28,23 @@ public class LoginView extends javax.swing.JFrame implements Page {
     public LoginView() {
         initComponents();
     }
-    
-    private void conectar (){
-        usuario = txtUsuario.getText();
-        contrasena = new String(pwdPassword.getPassword());
-        
-        presenter = new LoginPresenter(configuration, database);
-        
-        boolean loginValido = presenter.validarLogin(usuario, contrasena);
-        
-        if(loginValido){
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "No se pudo establecer la conecxion",
-            "Error de conecxión",
-            JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
+//    private void conectar() {
+//        usuario = txtUsuario.getText();
+//        contrasena = new String(pwdPassword.getPassword());
+//
+//        presenter = new LoginPresenter(configuration, database);
+//
+//        boolean loginValido = presenter.validarLogin(usuario, contrasena);
+//
+//        if (loginValido) {
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "No se pudo establecer la conecxion",
+//                    "Error de conecxión",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,7 +141,17 @@ public class LoginView extends javax.swing.JFrame implements Page {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        conectar();
+
+        // VAlidar el username
+        // Validar la contraseña
+        var result = this.presenter.signIn(this.txtUsuario.getText(), new String(this.pwdPassword.getPassword()));
+        if (result.isError()) {
+            JOptionPane.showMessageDialog(this, result.error().message(),
+                    "Error de conecxión",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        this.router.moveToHomeView();
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

@@ -45,7 +45,7 @@ public class ClientePresenter {
         var result = this.repositorio.findById(id);
 
         if (result.isError()) {
-            return new Result(result.error());
+            return result;
         }
         return new Result(result.value());
     }
@@ -56,13 +56,12 @@ public class ClientePresenter {
     public Result<String> CreateClient(Cliente nuevoCliente) {
         var result = this.repositorio.findById(nuevoCliente.idCliente());
 
-        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
-            return new Result(Error.make("CLIENT_EXISTS", "El cliente ya existe"));
+        if (result.isError()) {
+            var a = this.repositorio.create(nuevoCliente);
+            return new Result("Creado correctamente");
         }
-        this.repositorio.create(result.value());
 
-        return new Result("Creado correctamente");
-
+        return new Result(Error.make("CLIENT_EXISTS", result.error().message()));
     }
 
     /*
