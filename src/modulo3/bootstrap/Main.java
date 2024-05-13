@@ -54,7 +54,7 @@ public class Main {
 
         var clienteView = new ClienteView();
         clienteView.setRouter(router);
-        clienteView.setPresenter(new ClientePresenter(new ClienteRepository(database)));
+        clienteView.setPresenter(new ClientePresenter(new ClienteRepository(database), database));
 
         var pedidoView = new PedidoView();
         pedidoView.setRouter(router);

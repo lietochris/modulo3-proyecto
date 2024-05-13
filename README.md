@@ -7,3 +7,10 @@
 - Trevilla Figueroa Christopher
 ## Diagrama UML
 ![Diagrama UML](./docs/uml.jpeg)
+
+## Codigo para jasper
+
+Properties > Run > VM Options
+```
+--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED
+```
