@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import models.Cliente;
 import presenter.ClientePresenter;
+import repositories.ClienteRepository;
+import utils.Database;
 import utils.Page;
 import utils.Result;
 import utils.Router;
@@ -330,17 +332,16 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         //</editor-fold>
 // Crear un Router y un ClientePresenter
         Router router = new Router();
-        
-        //ClienteRepository cliente =  new ClienteRepository();
-        
-        ClientePresenter presenter = new ClientePresenter();
+        Database database = new Database();
+        ClienteRepository clienteRepository = new ClienteRepository(database);
+        ClientePresenter presenter = new ClientePresenter(clienteRepository);
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ClienteView clienteView = new ClienteView();
                 clienteView.setPresenter(presenter);
-                new ClienteView().setVisible(true);
+                clienteView.setVisible(true);
             }
         });
     }
