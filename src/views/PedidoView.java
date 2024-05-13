@@ -62,8 +62,8 @@ private boolean validarCampos() {
         Integer.parseInt(txtidPedido.getText()); // Números Enteros
     } catch (NumberFormatException nfe) {
         JOptionPane.showMessageDialog(this,
-                "Se debe introducir un valor entero para el id del Cliente",
-                "Error en el campo ID Cliente",
+                "Se debe introducir un valor entero para el id del Pedido",
+                "Error en el campo ID Pedido",
                 JOptionPane.ERROR_MESSAGE);
         correcto = false;
         return correcto;
@@ -71,8 +71,8 @@ private boolean validarCampos() {
 
     if (txtCantidad.getText().isEmpty()) {
         JOptionPane.showMessageDialog(this,
-                "Se deben introducir el nombre del cliente.",
-                "Error en el campo nombres",
+                "Se deben introducir la cantidad.",
+                "Error en el campo Cantidad",
                 JOptionPane.ERROR_MESSAGE);
         correcto = false;
         return correcto;
