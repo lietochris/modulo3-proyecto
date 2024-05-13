@@ -29,22 +29,6 @@ public class LoginView extends javax.swing.JFrame implements Page {
         initComponents();
     }
 
-//    private void conectar() {
-//        usuario = txtUsuario.getText();
-//        contrasena = new String(pwdPassword.getPassword());
-//
-//        presenter = new LoginPresenter(configuration, database);
-//
-//        boolean loginValido = presenter.validarLogin(usuario, contrasena);
-//
-//        if (loginValido) {
-//
-//        } else {
-//            JOptionPane.showMessageDialog(this, "No se pudo establecer la conecxion",
-//                    "Error de conecxión",
-//                    JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
