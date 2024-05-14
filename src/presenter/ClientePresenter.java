@@ -32,10 +32,6 @@ public class ClientePresenter {
      */
     public List<Cliente> FindAll() {
         var result = this.repositorio.findAll();
-        if (!result.isError()) {
-            return new ArrayList();
-        }
-
         return result.value();
     }
 
@@ -74,6 +70,7 @@ public class ClientePresenter {
         if (result.isError() && result.error().code().equals("NOT_FOUND")) {
             return new Result(Error.make("CLIENT_NOT_EXISTS", "El cliente no existe"));
         }
+        this.repositorio.delete(id);
         return new Result("Elimiando correctamente");
     }
 
