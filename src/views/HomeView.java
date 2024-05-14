@@ -32,6 +32,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        btnProveedor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,12 +43,21 @@ public class HomeView extends javax.swing.JFrame implements Page {
             }
         });
 
+        btnProveedor.setText("Proveedor");
+        btnProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(192, Short.MAX_VALUE)
+                .addGap(53, 53, 53)
+                .addComponent(btnProveedor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(133, 133, 133))
         );
@@ -55,7 +65,9 @@ public class HomeView extends javax.swing.JFrame implements Page {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(71, 71, 71)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnProveedor))
                 .addContainerGap(206, Short.MAX_VALUE))
         );
 
@@ -66,6 +78,11 @@ public class HomeView extends javax.swing.JFrame implements Page {
         // TODO add your handling code here:
         this.router.moveToClienteView();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedorActionPerformed
+        // TODO add your handling code here:
+        this.router.moveToProveedorView();
+    }//GEN-LAST:event_btnProveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,6 +130,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnProveedor;
     private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
