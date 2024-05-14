@@ -33,6 +33,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     private Router router;
     private ClientePresenter presenter;
     private int indiceActual = 0; 
+    private List<Cliente> clientes;
 
     /**
      * Creates new form ClienteView
@@ -50,7 +51,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         btnActualizar.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnCancelar.setEnabled(false);
-        List<Cliente> clientes = presenter.FindAll();
+        this.clientes = this.presenter.FindAll();
         if (!clientes.isEmpty()) {
             muestraRegistroActual(clientes);
             btnPrimero.setEnabled(true);
@@ -89,6 +90,30 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             btnActualizar.setEnabled(false);
             btnGuardar.setEnabled(false);
             btnCancelar.setEnabled(false);
+        }
+    }
+    
+    private void primerRegistro(List<Cliente> clientes) {
+        indiceActual = 0;
+        muestraRegistroActual(clientes);
+    }
+    
+    private void anteriorRegistro(List<Cliente> clientes) {
+        if (indiceActual > 0) {
+            indiceActual--;
+            muestraRegistroActual(clientes);
+        }
+    }
+    
+    private void ultimoRegistro(List<Cliente> clientes) {
+        indiceActual = clientes.size() - 1;
+        muestraRegistroActual(clientes);
+    }
+    
+    private void siguienteRegistro(List<Cliente> clientes) {
+        if (indiceActual < clientes.size() - 1) {
+            indiceActual++;
+            muestraRegistroActual(clientes);
         }
     }
     
@@ -253,6 +278,11 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         jScrollPane1.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -324,14 +354,39 @@ public class ClienteView extends javax.swing.JFrame implements Page {
 
         btnMenu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnMenu.setText("Regresar al Menu");
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuActionPerformed(evt);
+            }
+        });
 
         btnPrimero.setText("Primero");
+        btnPrimero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrimeroActionPerformed(evt);
+            }
+        });
 
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         btnAnterior.setText("Anterior");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
 
         btnUltimo.setText("Ultimo");
+        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUltimoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -394,18 +449,22 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(166, 166, 166))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(166, 166, 166))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(238, 238, 238))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCliente)
                     .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -552,7 +611,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
             } else {
                 // Mostrar mensaje de éxito al usuario
-                JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+                JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Se canceló la eliminación del registro del cliente");
@@ -579,7 +638,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
             } else {
                 // Mostrar mensaje de éxito al usuario
-                JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+                JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
             }
 
         } else {
@@ -595,6 +654,36 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         btnCancelar.setEnabled(false);
         btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+        // TODO add your handling code here:
+        this.router.moveToHomeView();
+    }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        this.llenarVentana();
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
+        // TODO add your handling code here:
+        primerRegistro(clientes);
+    }//GEN-LAST:event_btnPrimeroActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+        anteriorRegistro(clientes);
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        siguienteRegistro(clientes);
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
+        // TODO add your handling code here:
+        ultimoRegistro(clientes);
+    }//GEN-LAST:event_btnUltimoActionPerformed
 
     /**
      * @param args the command line arguments
