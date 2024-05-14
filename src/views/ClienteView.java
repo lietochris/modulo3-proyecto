@@ -4,9 +4,15 @@
  */
 package views;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,6 +32,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
 
     private Router router;
     private ClientePresenter presenter;
+    private int indiceActual = 0; 
 
     /**
      * Creates new form ClienteView
@@ -36,6 +43,55 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         initComponents();
     }
     
+    private void llenarVentana() {
+        desactivarCampos();
+        btnEliminar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        List<Cliente> clientes = presenter.FindAll();
+        if (!clientes.isEmpty()) {
+            muestraRegistroActual(clientes);
+            btnPrimero.setEnabled(true);
+            btnSiguiente.setEnabled(true);
+            btnAnterior.setEnabled(true);
+            btnUltimo.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(false);
+            btnGuardar.setEnabled(false);
+            btnCancelar.setEnabled(false);
+            btnActualizar.setEnabled(false);
+        }
+    }
+    
+    private void muestraRegistroActual(List<Cliente> clientes) {
+        if(!clientes.isEmpty()){
+            if (indiceActual >= 0 && indiceActual < clientes.size()) {
+                Cliente clienteActual = clientes.get(indiceActual);
+                txtIdCliente.setText(String.valueOf(clienteActual.idCliente()));
+                txtNombreCliente.setText(clienteActual.nombre());
+                txtApellidoP.setText(clienteActual.apellidoPaterno());
+                txtApellidoM.setText(clienteActual.apellidoMaterno());
+                LocalDateTime fechaCreacion = clienteActual.fechaCreacion();
+                jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
+
+                LocalDate fechaNacimiento = clienteActual.fechaNacimiento();
+                jdcFechaNacimiento.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+            }
+        }else {
+            nuevoRegistro();
+            btnEliminar.setEnabled(false);
+            btnEditar.setEnabled(false);
+            btnActualizar.setEnabled(false);
+            btnGuardar.setEnabled(false);
+            btnCancelar.setEnabled(false);
+        }
+    }
+    
     private Cliente obtenerDatosCliente() {
         
     DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -44,12 +100,16 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     String apellidoP = txtApellidoP.getText(); 
     String apellidoM = txtApellidoM.getText(); 
     
-    LocalDate fechaCreacion = LocalDate.parse(txtFechaCreacion.getText(), formatterDate);
-    LocalDateTime fechaConHoraDefault = fechaCreacion.atStartOfDay().withHour(8);
-    LocalDate fechaNacimiento = LocalDate.parse(txtFechaNacimiento.getText(), formatterDate);
+    Instant instant = jdcFechaCreacion.getDate().toInstant();
+    LocalDateTime fechaCreacion = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
+    
+    Instant instantNacimiento = jdcFechaNacimiento.getDate().toInstant();
+    LocalDate fechaNacimiento = instantNacimiento.atZone(ZoneId.systemDefault()).toLocalDate();
+    jdcFechaCreacion.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
     // Crear y devolver un objeto Cliente con los datos obtenidos
-    return new Cliente(idCliente, nombreCliente, apellidoP, apellidoM, fechaConHoraDefault, fechaNacimiento);
+    return new Cliente(idCliente, nombreCliente, apellidoP, apellidoM, fechaCreacion, fechaNacimiento);
 }
     
     private boolean validarCampos(){
@@ -91,32 +151,65 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             return correcto;
         }
  
-/*        try {
- 
-            Date fecha = new Date(jdcFechaCreacion.getDate().getTime());
-        } catch (Exception dte) {
+        try {
+            LocalDateTime fechaCreacion = LocalDateTime.ofInstant(jdcFechaCreacion.getDate().toInstant(), ZoneId.systemDefault());
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
-                    "Error, la fecha no es valida",
-                    "Error en el campo Fecha Registro",
+                    "Error, la fecha de creación no es válida",
+                    "Error en el campo Fecha Creación",
                     JOptionPane.ERROR_MESSAGE);
- 
+
             correcto = false;
             return correcto;
         }
-                try {
- 
-            Date fecha = new Date(jdcFechaNacimiento.getDate().getTime());
-        } catch (Exception dte) {
+
+        try {
+            LocalDate fechaNacimiento = LocalDate.ofInstant(jdcFechaNacimiento.getDate().toInstant(), ZoneId.systemDefault());
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
-                    "Error, la fecha de nacimiento no es valida",
+                    "Error, la fecha de nacimiento no es válida",
                     "Error en el campo Fecha Nacimiento",
                     JOptionPane.ERROR_MESSAGE);
- 
+
             correcto = false;
             return correcto;
         }
- */
         return correcto;
+    }
+    
+    private void nuevoRegistro() {
+        activarCampos();
+        limpiarRegistros();
+
+    }
+    
+    private void activarCampos() {
+        txtIdCliente.setEditable(true);
+        txtNombreCliente.setEditable(true);
+        txtApellidoP.setEditable(true);
+        txtApellidoM.setEditable(true);
+        jdcFechaCreacion.setVisible(true);  
+        jdcFechaNacimiento.setVisible(true);  
+    }
+
+    private void desactivarCampos() {
+        txtIdCliente.setEditable(false);
+        txtNombreCliente.setEditable(false);
+        txtApellidoP.setEditable(false);
+        txtApellidoM.setEditable(false);
+        jdcFechaCreacion.setVisible(false);
+        jdcFechaNacimiento.setVisible(false);
+    }
+    
+    private void limpiarRegistros() {
+        txtIdCliente.setText("");
+        txtNombreCliente.setText("");
+        txtApellidoP.setText("");
+        txtApellidoM.setText("");
+        jdcFechaCreacion.setCalendar(null);
+        jdcFechaCreacion.setEnabled(true);
+        jdcFechaNacimiento.setCalendar(null);
+        jdcFechaNacimiento.setEnabled(true);
     }
 
     /**
@@ -142,8 +235,6 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         txtNombreCliente = new javax.swing.JTextField();
         txtApellidoP = new javax.swing.JTextField();
         txtApellidoM = new javax.swing.JTextField();
-        txtFechaCreacion = new javax.swing.JTextField();
-        txtFechaNacimiento = new javax.swing.JTextField();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -156,6 +247,8 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         btnSiguiente = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
+        jdcFechaCreacion = new com.toedter.calendar.JDateChooser();
+        jdcFechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -175,11 +268,16 @@ public class ClienteView extends javax.swing.JFrame implements Page {
 
         lblApellidoM.setText("ApellidoM");
 
-        lblFechaCreacion.setText("FechaCreacion");
+        lblFechaCreacion.setText("Fecha de Creacion");
 
-        lblFechaNacimiento.setText("FechaNacimiento");
+        lblFechaNacimiento.setText("Fecha de Nacimiento");
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -189,12 +287,32 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnReporte.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnReporte.setText("Imprimir Reporte");
@@ -219,58 +337,49 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(166, 166, 166))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(lblCliente)
-                        .addGap(41, 41, 41)
-                        .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblNombreCliente)
-                                        .addComponent(lblApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblApellidoM)
-                                        .addComponent(lblFechaCreacion))
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNombreCliente)
+                                            .addComponent(lblApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblApellidoM)
+                                            .addComponent(lblFechaCreacion))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(138, 138, 138)
+                                                .addComponent(btnSiguiente))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(26, 26, 26)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(jdcFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lblFechaNacimiento)
-                                        .addGap(3, 3, 3)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(6, 6, 6)
-                                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(txtApellidoP, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnSiguiente))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jdcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(65, 65, 65)
                                 .addComponent(btnPrimero)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAnterior)))
-                        .addGap(18, 18, 18)
+                        .addGap(127, 127, 127)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 40, Short.MAX_VALUE)
@@ -283,6 +392,13 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                                 .addComponent(btnUltimo)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(166, 166, 166))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,44 +409,49 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCliente)
                     .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevo)
-                    .addComponent(btnGuardar))
-                .addGap(17, 17, 17)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombreCliente)
-                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnGuardar)
+                    .addComponent(btnNuevo))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombreCliente)
+                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancelar))
                         .addGap(20, 20, 20)
-                        .addComponent(btnEditar)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnEditar)
+                            .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnActualizar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblApellidoP)
-                            .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(lblApellidoP)
+                                .addGap(27, 27, 27))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEliminar)
+                                .addGap(69, 69, 69)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblApellidoM)
                             .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFechaCreacion)
-                            .addComponent(txtFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFechaNacimiento)
-                            .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(45, 45, 45)
                         .addComponent(btnReporte)
                         .addGap(18, 18, 18)
-                        .addComponent(btnMenu)))
+                        .addComponent(btnMenu))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jdcFechaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFechaCreacion))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFechaNacimiento)
+                            .addComponent(jdcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPrimero)
@@ -347,7 +468,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,6 +515,87 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         }
     }//GEN-LAST:event_btnReporteActionPerformed
 
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        nuevoRegistro();
+        btnGuardar.setEnabled(true);
+        btnCancelar.setEnabled(true);  
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        desactivarCampos();
+        //muestraRegistroActual();
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        activarCampos();
+        btnActualizar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+                int respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Desea eliminar el registro del cliente?",
+                "Confirme su respuesta",
+                JOptionPane.YES_NO_OPTION);
+        if (respuesta == 0) {
+            int idCliente = Integer.parseInt(txtIdCliente.getText()); 
+            Result<String> resultado = presenter.DeleteClient(idCliente);
+
+            // Manejar el resultado devuelto por el método CreateClient
+            if (resultado.isError()) {
+                // Mostrar mensaje de error al usuario
+                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            } else {
+                // Mostrar mensaje de éxito al usuario
+                JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Se canceló la eliminación del registro del cliente");
+        }
+        desactivarCampos();
+        limpiarRegistros();
+        //llenarVentana("cliente_net");
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if (validarCampos()) {
+            Cliente clienteActualizado = obtenerDatosCliente();
+            int idCliente = clienteActualizado.idCliente();
+            // Llamar al método CreateClient del presentador
+            Result<Cliente> resultado = presenter.UpdateClient(idCliente,clienteActualizado);
+
+            // Manejar el resultado devuelto por el método CreateClient
+            if (resultado.isError()) {
+                // Mostrar mensaje de error al usuario
+                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            } else {
+                // Mostrar mensaje de éxito al usuario
+                JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se pueden actualizar los datos del cliente.",
+                    "Error al actualizar el cliente",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        desactivarCampos();
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -429,6 +631,8 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
+    private com.toedter.calendar.JDateChooser jdcFechaCreacion;
+    private com.toedter.calendar.JDateChooser jdcFechaNacimiento;
     private javax.swing.JLabel lblApellidoM;
     private javax.swing.JLabel lblApellidoP;
     private javax.swing.JLabel lblCliente;
@@ -437,8 +641,6 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     private javax.swing.JLabel lblNombreCliente;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;
-    private javax.swing.JTextField txtFechaCreacion;
-    private javax.swing.JTextField txtFechaNacimiento;
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtNombreCliente;
     // End of variables declaration//GEN-END:variables

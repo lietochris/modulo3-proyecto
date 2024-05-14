@@ -7,8 +7,10 @@ package presenter;
 import java.util.ArrayList;
 import java.util.List;
 import models.Pedido;
+import net.sf.jasperreports.engine.JRException;
 import repositories.PedidoRepository;
 import utils.Result;
+import utils.Error;
 
 /**
  *
@@ -16,65 +18,81 @@ import utils.Result;
  */
 public class PedidoPresenter {
 
-    private final PedidoRepository repository;
+    private final PedidoRepository repositorio;
 
-    public PedidoPresenter(repositories.PedidoRepository repository) {
-        this.repository = repository;
+     /*
+    Constructor 
+     */
+    public PedidoPresenter(PedidoRepository pedidoRepository) {
+        this.repositorio = pedidoRepository;
     }
-    
-    /*Obtiene todos los registros*/
-    public List<Pedido> FindAll() {
-        var result = this.repository.findAll();
-        return !result.isError() ? new ArrayList<>() : result.value();
-    }
-    
+
     /*
-    Obtiene datos de la orden por Id
-    */
-    
-    public Result<Pedido> FindOrderById(int id){
-        var result = this.repository.findById(id);
-        return result.isError() ? new Result(result.error()) : new Result(result.value());
-    }
-    
-    /* Crea una nueva orden */
-    public Result<String> CreateOrder(Pedido nuevoPedido){
-        var result = this.repository.findById(nuevoPedido.idPedido());
-        
-        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
-            return new Result(utils.Error.make("ORDER_EXISTS", "El pedido ya existe"));
+    Obtiene todos los registros
+     */
+    public List<Pedido> FindAll() {
+        var result = this.repositorio.findAll();
+        if (!result.isError()) {
+            return new ArrayList();
         }
 
-        this.repository.create(nuevoPedido); 
+        return result.value();
+    }
+     /*
+    Obtiene el Pedido por Id 
+     */
+    public Result<Pedido> FindById(int id) throws Exception {
+        var result = this.repositorio.findById(id);
 
-        return new Result("El pedido fue realizado");
+        if (result.isError()) {
+            return result;
+        }
+        return new Result(result.value());
     }
     
-    /*Elimina un pedido por id*/
-    public Result<String> DeleteOrder(int id){
-        var result = this.repository.findById(id);
-        
+     /*
+    Crea un nuevo pedido
+     */
+    public Result<String> CreatePedido(Pedido nuevoPedido) {
+        var result = this.repositorio.findById(nuevoPedido.idPedido());
+
+        if (result.isError()) {
+            var a = this.repositorio.create(nuevoPedido);
+            return new Result("Creado correctamente");
+        }
+
+        return new Result(Error.make("Pedido_EXISTS", result.error().message()));
+    }
+     /*
+    Elimina a un pedido por medio del id que recibe del parametro
+     */
+    public Result<String> DeletePedido(int id) {
+        var result = this.repositorio.findById(id);
+
         if (result.isError() && result.error().code().equals("NOT_FOUND")) {
-            return new Result(utils.Error.make("ORDER_NOT_EXISTS", "La orden no existe"));
+            return new Result(Error.make("PEDIDO_NOT_EXISTS", "El pedido no existe"));
         }
-        return new Result("Pedido elimiando correctamente");
+        return new Result("Eliminado correctamente");
     }
-    
-    /* Actualizar pedido*/
-    public Result<Pedido> UpdateOrder(int id, Pedido pedido){
-        var result = this.repository.findById(id);
-        
-        if(result.isError() && result.error().code().equals("NOT_FOUND")){
-            return new Result(utils.Error.make("ORDER_NOT_EXISTS", "La orden no existe"));
+     /*
+    Actualiza los datos de un pedido
+     */
+    public Result<Pedido> UpdatePedido(int id, Pedido pedido) {
+        var result = this.repositorio.findById(id);
+
+        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
+            return new Result(Error.make("PEDIDO_NOT_EXISTS", "El pedido no existe"));
         }
-        var pedidoActualizado = this.repository.update(id, pedido);
+
+        var pedidoActualizado = this.repositorio.update(id, pedido);
         return new Result(pedidoActualizado);
     }
-    
+
     /*
     Crea un reporte
      */
-    public void CreateReport() {
-
+    public void CreateReport() throws JRException, Exception {
+        this.repositorio.generateReport();
     }
+
 }
