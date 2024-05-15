@@ -429,7 +429,7 @@ private boolean validarCampos() {
     }//GEN-LAST:event_btnRegresarMenuActionPerformed
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-         try {
+             try {
             // TODO add your handling code here:
             this.presenter.CreateReport();
         } catch (Exception ex) {

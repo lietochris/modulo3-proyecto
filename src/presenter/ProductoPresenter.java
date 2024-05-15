@@ -7,6 +7,7 @@ package presenter;
 import java.util.ArrayList;
 import java.util.List;
 import models.Producto;
+import net.sf.jasperreports.engine.JRException;
 import repositories.ProductoRepository;
 import utils.Result;
 
@@ -71,11 +72,11 @@ public class ProductoPresenter {
         return new Result(productoActualizado);
     }
     
-    /*
+   /*
     Crea un reporte
      */
-    public void CreateReport() {
-
+    public void CreateReport() throws JRException, Exception {
+        this.repository.generateReport();
     }
 
 }
