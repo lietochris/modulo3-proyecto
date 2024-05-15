@@ -406,26 +406,8 @@ private boolean validarCampos() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarMenuActionPerformed
-        if (validarCampos()) {
-            Pedido nuevoPedido = obtenerDatosPedido();
-        
-                    // Llamar al método CreatePedido del presentador
-            Result<String> resultado = presenter.CreatePedido(nuevoPedido);
-
-            // Manejar el resultado devuelto por el método CreatePedido
-            if (resultado.isError()) {
-                // Mostrar mensaje de error al usuario
-                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
-            } else {
-                // Mostrar mensaje de éxito al usuario
-                JOptionPane.showMessageDialog(this, "Pedido creado correctamente");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "No se pueden guardar los datos del Pedido.",
-                    "Error al guardar el Pedido",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        // TODO add your handling code here:
+        this.router.moveToHomeView();
     }//GEN-LAST:event_btnRegresarMenuActionPerformed
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
