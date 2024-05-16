@@ -75,7 +75,20 @@ public class PedidoView extends javax.swing.JFrame implements Page {
                 txtCantidad.setText(String.valueOf(pedidoActual.cantidad()));
                 LocalDateTime fechaCreacion = pedidoActual.fechaCreacion();
                 jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
+                
+                            // Obtener fecha de creación del pedido
+
+            // Convertir LocalDateTime a Date
+            Date fechaCreacionDate = Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant());
+
+
+            txtObservaciones.setText(pedidoActual.observaciones());
+                
                 txtObservaciones.setText(pedidoActual.observaciones());
+                
+                ////se agrega valor double
+                double totalPago = pedidoActual.totalPago();
+                txtTotalPago.setText(String.valueOf(totalPago));
 
 //Pendientes cmbEntregado y 
                 btnEditar.setEnabled(true);
