@@ -32,9 +32,7 @@ public class PedidoPresenter {
      */
     public List<Pedido> FindAll() {
         var result = this.repositorio.findAll();
-        if (!result.isError()) {
-            return new ArrayList();
-        }
+
 
         return result.value();
     }
