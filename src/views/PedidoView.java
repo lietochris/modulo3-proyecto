@@ -322,11 +322,6 @@ private boolean validarCampos() {
         });
 
         btnNuevo.setText("Nuevo");
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
-            }
-        });
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -350,11 +345,6 @@ private boolean validarCampos() {
         });
 
         btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +357,7 @@ private boolean validarCampos() {
         btnReporte.setText("Imprimir Reporte");
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReporteActionPerformed(evt);
+                CrearReporte(evt);
             }
         });
 
@@ -529,64 +519,21 @@ private boolean validarCampos() {
         this.router.moveToHomeView();
     }//GEN-LAST:event_btnRegresarMenuActionPerformed
 
-    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {                                           
         try {
             // TODO add your handling code here:
             this.presenter.CreateReport();
         } catch (Exception ex) {
             Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
         } 
-    }//GEN-LAST:event_btnReporteActionPerformed
+    }                                          
 
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         nuevoRegistro();
         btnGuardar.setEnabled(true);
         btnCancelar.setEnabled(true);  
-    }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-                
-        if (validarCampos()) {
-            Pedido nuevoPedido = obtenerDatosPedido();
-        
-                    // Llamar al método CreateClient del presentador
-            Result<String> resultado = presenter.CreatePedido(nuevoPedido);
-
-            // Manejar el resultado devuelto por el método CreateClient
-            if (resultado.isError()) {
-                // Mostrar mensaje de error al usuario
-                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
-            } else {
-                // Mostrar mensaje de éxito al usuario
-                JOptionPane.showMessageDialog(this, "Pedido creado correctamente");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "No se pueden guardar los datos del pedido.",
-                    "Error al guardar el pedido",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnRegresarMenuActionPerformed
-
-    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-             try {
-            // TODO add your handling code here:
-            this.presenter.CreateReport();
-        } catch (Exception ex) {
-            Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnReporteActionPerformed
-
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }                                        
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
@@ -690,6 +637,16 @@ private boolean validarCampos() {
         // TODO add your handling code here:
                 ultimoRegistro(pedidos);
     }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void CrearReporte(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearReporte
+        // TODO add your handling code here:
+         try {
+            // TODO add your handling code here:
+            this.presenter.CreateReport();
+        } catch (Exception ex) {
+            Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_CrearReporte
 
     /**
      * @param args the command line arguments
