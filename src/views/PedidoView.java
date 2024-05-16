@@ -277,6 +277,11 @@ private boolean validarCampos() {
         jdcFechaCreacion = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 102));
 
@@ -322,6 +327,11 @@ private boolean validarCampos() {
         });
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -518,22 +528,7 @@ private boolean validarCampos() {
         // TODO add your handling code here:
         this.router.moveToHomeView();
     }//GEN-LAST:event_btnRegresarMenuActionPerformed
-
-    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        try {
-            // TODO add your handling code here:
-            this.presenter.CreateReport();
-        } catch (Exception ex) {
-            Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-    }                                          
-
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-        nuevoRegistro();
-        btnGuardar.setEnabled(true);
-        btnCancelar.setEnabled(true);  
-    }                                        
+                                     
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
@@ -545,7 +540,7 @@ private boolean validarCampos() {
             int idPedido = Integer.parseInt(txtidPedido.getText()); 
             Result<String> resultado = presenter.DeletePedido(idPedido);
 
-            // Manejar el resultado devuelto por el método CreateClient
+            // Manejar el resultado devuelto por el método CreatePedido
             if (resultado.isError()) {
                 // Mostrar mensaje de error al usuario
                 JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
@@ -558,7 +553,7 @@ private boolean validarCampos() {
         }
         desactivarCampos();
         limpiarRegistros();
-        //llenarVentana("cliente_net");
+        //llenarVentana("pedido");
         btnEliminar.setEnabled(false);
         btnGuardar.setEnabled(false);
         btnCancelar.setEnabled(false);
@@ -587,10 +582,10 @@ private boolean validarCampos() {
                 if (validarCampos()) {
             Pedido pedidoActualizado = obtenerDatosPedido();
             int idPedido = pedidoActualizado.idPedido();
-            // Llamar al método CreateClient del presentador
+            // Llamar al método CreatePedido del presentador
             Result<Pedido> resultado = presenter.UpdatePedido(idPedido, pedidoActualizado);
 
-            // Manejar el resultado devuelto por el método CreateClient
+            // Manejar el resultado devuelto por el método CreatePedido
             if (resultado.isError()) {
                 // Mostrar mensaje de error al usuario
                 JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
@@ -613,10 +608,6 @@ private boolean validarCampos() {
         btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    private void formComponentShown(java.awt.event.ComponentEvent evt) {                                    
-        // TODO add your handling code here:
-        this.llenarVentana();
-    }   
     
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         // TODO add your handling code here:
@@ -647,6 +638,18 @@ private boolean validarCampos() {
             Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }//GEN-LAST:event_CrearReporte
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        nuevoRegistro();
+        btnGuardar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        this.llenarVentana();
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
