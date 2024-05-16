@@ -4,21 +4,25 @@
  */
 package views;
 
-import presenter.PedidoPresenter;
-import utils.Page;
-import utils.Router;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Pedido;
+import presenter.PedidoPresenter;
 import repositories.PedidoRepository;
 import utils.Database;
+import utils.Page;
 import utils.Result;
+import utils.Router;
 
 
 
@@ -31,6 +35,8 @@ public class PedidoView extends javax.swing.JFrame implements Page {
 
     private Router router;
     private PedidoPresenter presenter;
+    private int indiceActual = 0; 
+    private List<Pedido> pedidos;
 
     /**
      * Creates new form PedidoView
@@ -38,20 +44,94 @@ public class PedidoView extends javax.swing.JFrame implements Page {
     public PedidoView() {
         initComponents();
     }
+        
+        private void llenarVentana() {
+        desactivarCampos();
+        btnEliminar.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        this.pedidos = this.presenter.FindAll();
+        if (!pedidos.isEmpty()) {
+            muestraRegistroActual(pedidos);
+            btnPrimero.setEnabled(true);
+            btnSiguiente.setEnabled(true);
+            btnAnterior.setEnabled(true);
+            btnUltimo.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(false);
+            btnGuardar.setEnabled(false);
+            btnCancelar.setEnabled(false);
+            btnActualizar.setEnabled(false);
+        }
+    }
+        
+            private void muestraRegistroActual(List<Pedido> pedidos) {
+        if(!pedidos.isEmpty()){
+            if (indiceActual >= 0 && indiceActual < pedidos.size()) {
+                Pedido pedidoActual = pedidos.get(indiceActual);
+                txtidPedido.setText(String.valueOf(pedidoActual.idPedido()));
+                txtCantidad.setText(String.valueOf(pedidoActual.cantidad()));
+                LocalDateTime fechaCreacion = pedidoActual.fechaCreacion();
+                jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
+                txtObservaciones.setText(pedidoActual.observaciones());
+
+//Pendientes cmbEntregado y 
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+            }
+        }else {
+            nuevoRegistro();
+            btnEliminar.setEnabled(false);
+            btnEditar.setEnabled(false);
+            btnActualizar.setEnabled(false);
+            btnGuardar.setEnabled(false);
+            btnCancelar.setEnabled(false);
+        }
+    }
     
+    private void primerRegistro(List<Pedido> pedidos) {
+        indiceActual = 0;
+        muestraRegistroActual(pedidos);
+    }
+    
+    private void anteriorRegistro(List<Pedido> pedidos) {
+        if (indiceActual > 0) {
+            indiceActual--;
+            muestraRegistroActual(pedidos);
+        }
+    }
+    
+    private void ultimoRegistro(List<Pedido> pedidos) {
+        indiceActual = pedidos.size() - 1;
+        muestraRegistroActual(pedidos);
+    }
+    
+    private void siguienteRegistro(List<Pedido> pedidos) {
+        if (indiceActual < pedidos.size() - 1) {
+            indiceActual++;
+            muestraRegistroActual(pedidos);
+        }
+    }
+    
+
     
 private Pedido obtenerDatosPedido() {
     DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     int idPedido = Integer.parseInt(txtidPedido.getText());
     int cantidad = Integer.parseInt(txtCantidad.getText());
-    LocalDate fechaCreacion = jdcFechaCreacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    LocalDateTime fechaConHoraDefault = fechaCreacion.atStartOfDay().withHour(8);
+    
+    Instant instant = jdcFechaCreacion.getDate().toInstant();
+    LocalDateTime fechaCreacion = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
+    
     String observaciones = txtObservaciones.getText();
     boolean entregado = Boolean.parseBoolean(cmbEntregado.getSelectedItem().toString()); // Tipo de dato booleano (1 es si y 0 No)
     double totalPago = Double.parseDouble(txtTotalPago.getText()); // Cantidad con decimales
 
     // Crear y devolver un objeto Pedido con los datos obtenidos
-    return new Pedido(idPedido, cantidad, observaciones, entregado, totalPago, fechaConHoraDefault);
+    return new Pedido(idPedido, cantidad, observaciones, entregado, totalPago, fechaCreacion);
 }
 
  
@@ -118,7 +198,46 @@ private boolean validarCampos() {
 
     return correcto;
 }  
+
+
+    private void nuevoRegistro() {
+        activarCampos();
+        limpiarRegistros();
+
+    }
     
+    private void activarCampos() {
+        txtidPedido.setEditable(true);
+        txtCantidad.setEditable(true);
+        txtFechaCreacion.setVisible(false);
+        jdcFechaCreacion.setVisible(true);
+        jdcFechaCreacion.setVisible(true); 
+        txtObservaciones.setEditable(true);
+        cmbEntregado.setEditable(true);
+        txtTotalPago.setEditable(true);
+    }
+
+    private void desactivarCampos() {
+        txtidPedido.setEditable(false);
+        txtCantidad.setEditable(false);
+        txtFechaCreacion.setVisible(true);
+        jdcFechaCreacion.setVisible(false);
+        jdcFechaCreacion.setVisible(false); 
+        txtObservaciones.setEditable(false);
+        cmbEntregado.setEditable(false);
+        txtTotalPago.setEditable(false);
+    }
+    
+    private void limpiarRegistros() {
+        txtidPedido.setText("");
+        txtCantidad.setText("");
+        jdcFechaCreacion.setCalendar(null);
+        jdcFechaCreacion.setEnabled(true);
+        txtObservaciones.setText("");      
+        cmbEntregado.setSelectedIndex(0);
+        txtTotalPago.setText("");    
+
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -406,13 +525,36 @@ private boolean validarCampos() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarMenuActionPerformed
+        // TODO add your handling code here:
+        this.router.moveToHomeView();
+    }//GEN-LAST:event_btnRegresarMenuActionPerformed
+
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.presenter.CreateReport();
+        } catch (Exception ex) {
+            Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_btnReporteActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        nuevoRegistro();
+        btnGuardar.setEnabled(true);
+        btnCancelar.setEnabled(true);  
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+                
         if (validarCampos()) {
             Pedido nuevoPedido = obtenerDatosPedido();
         
-                    // Llamar al método CreatePedido del presentador
+                    // Llamar al método CreateClient del presentador
             Result<String> resultado = presenter.CreatePedido(nuevoPedido);
 
-            // Manejar el resultado devuelto por el método CreatePedido
+            // Manejar el resultado devuelto por el método CreateClient
             if (resultado.isError()) {
                 // Mostrar mensaje de error al usuario
                 JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
@@ -422,8 +564,8 @@ private boolean validarCampos() {
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                    "No se pueden guardar los datos del Pedido.",
-                    "Error al guardar el Pedido",
+                    "No se pueden guardar los datos del pedido.",
+                    "Error al guardar el pedido",
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRegresarMenuActionPerformed
@@ -443,75 +585,115 @@ private boolean validarCampos() {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+                int respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Desea eliminar el registro del Pedido?",
+                "Confirme su respuesta",
+                JOptionPane.YES_NO_OPTION);
+        if (respuesta == 0) {
+            int idPedido = Integer.parseInt(txtidPedido.getText()); 
+            Result<String> resultado = presenter.DeletePedido(idPedido);
+
+            // Manejar el resultado devuelto por el método CreateClient
+            if (resultado.isError()) {
+                // Mostrar mensaje de error al usuario
+                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            } else {
+                // Mostrar mensaje de éxito al usuario
+                JOptionPane.showMessageDialog(this, "Pedido eliminado correctamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Se canceló la eliminación del registro del Pedido");
+        }
+        desactivarCampos();
+        limpiarRegistros();
+        //llenarVentana("cliente_net");
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        desactivarCampos();
+        //muestraRegistroActual();
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
+        activarCampos();
+        btnActualizar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnCancelar.setEnabled(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
+                if (validarCampos()) {
+            Pedido pedidoActualizado = obtenerDatosPedido();
+            int idPedido = pedidoActualizado.idPedido();
+            // Llamar al método CreateClient del presentador
+            Result<Pedido> resultado = presenter.UpdatePedido(idPedido, pedidoActualizado);
+
+            // Manejar el resultado devuelto por el método CreateClient
+            if (resultado.isError()) {
+                // Mostrar mensaje de error al usuario
+                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            } else {
+                // Mostrar mensaje de éxito al usuario
+                JOptionPane.showMessageDialog(this, "Pedido actualizado correctamente");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se pueden actualizar los datos del Pedido.",
+                    "Error al actualizar el Pedido",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        desactivarCampos();
+        btnEliminar.setEnabled(false);
+        btnGuardar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {                                    
+        // TODO add your handling code here:
+        this.llenarVentana();
+    }   
+    
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         // TODO add your handling code here:
+                primerRegistro(pedidos);
     }//GEN-LAST:event_btnPrimeroActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         // TODO add your handling code here:
+                anteriorRegistro(pedidos);
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
+                siguienteRegistro(pedidos);
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
         // TODO add your handling code here:
+                ultimoRegistro(pedidos);
     }//GEN-LAST:event_btnUltimoActionPerformed
 
-    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PedidoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PedidoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PedidoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PedidoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PedidoView().setVisible(true);
-            }
-        });
-    }
 
     @Override
     public String pageName() {
