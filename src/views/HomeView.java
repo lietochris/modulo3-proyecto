@@ -34,6 +34,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
         jButton1 = new javax.swing.JButton();
         btnProveedor = new javax.swing.JButton();
         btnProducto = new javax.swing.JButton();
+        btnPedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +60,14 @@ public class HomeView extends javax.swing.JFrame implements Page {
             }
         });
 
+        btnPedido.setText("Pedido");
+        btnPedido.setToolTipText("");
+        btnPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPedidoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,6 +77,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
                 .addComponent(btnProveedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPedido)
                     .addComponent(jButton1)
                     .addComponent(btnProducto))
                 .addGap(126, 126, 126))
@@ -81,7 +91,9 @@ public class HomeView extends javax.swing.JFrame implements Page {
                     .addComponent(btnProveedor))
                 .addGap(31, 31, 31)
                 .addComponent(btnProducto)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(btnPedido)
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         pack();
@@ -101,6 +113,11 @@ public class HomeView extends javax.swing.JFrame implements Page {
         // TODO add your handling code here:
           this.router.moveToProductoView();
     }//GEN-LAST:event_btnProductoActionPerformed
+
+    private void btnPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidoActionPerformed
+        // TODO add your handling code here:
+        this.router.moveToPedidoView();
+    }//GEN-LAST:event_btnPedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,6 +165,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPedido;
     private javax.swing.JButton btnProducto;
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton jButton1;
