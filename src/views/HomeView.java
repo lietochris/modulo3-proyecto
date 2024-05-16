@@ -35,6 +35,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
         btnProveedor = new javax.swing.JButton();
         btnProducto = new javax.swing.JButton();
         btnPedido = new javax.swing.JButton();
+        btnEmpleado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,13 +69,22 @@ public class HomeView extends javax.swing.JFrame implements Page {
             }
         });
 
+        btnEmpleado.setText("Empleado");
+        btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpleadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(btnProveedor)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnProveedor)
+                    .addComponent(btnEmpleado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPedido)
@@ -90,7 +100,9 @@ public class HomeView extends javax.swing.JFrame implements Page {
                     .addComponent(jButton1)
                     .addComponent(btnProveedor))
                 .addGap(31, 31, 31)
-                .addComponent(btnProducto)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnProducto)
+                    .addComponent(btnEmpleado))
                 .addGap(32, 32, 32)
                 .addComponent(btnPedido)
                 .addContainerGap(97, Short.MAX_VALUE))
@@ -118,6 +130,11 @@ public class HomeView extends javax.swing.JFrame implements Page {
         // TODO add your handling code here:
         this.router.moveToPedidoView();
     }//GEN-LAST:event_btnPedidoActionPerformed
+
+    private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
+        // TODO add your handling code here:
+        this.router.moveToEmpleadoView();
+    }//GEN-LAST:event_btnEmpleadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,6 +182,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEmpleado;
     private javax.swing.JButton btnPedido;
     private javax.swing.JButton btnProducto;
     private javax.swing.JButton btnProveedor;
