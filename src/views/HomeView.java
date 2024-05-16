@@ -33,6 +33,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
 
         jButton1 = new javax.swing.JButton();
         btnProveedor = new javax.swing.JButton();
+        btnProducto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,6 +51,14 @@ public class HomeView extends javax.swing.JFrame implements Page {
             }
         });
 
+        btnProducto.setText("Producto");
+        btnProducto.setToolTipText("");
+        btnProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -58,8 +67,10 @@ public class HomeView extends javax.swing.JFrame implements Page {
                 .addGap(53, 53, 53)
                 .addComponent(btnProveedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(133, 133, 133))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(btnProducto))
+                .addGap(126, 126, 126))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -68,7 +79,9 @@ public class HomeView extends javax.swing.JFrame implements Page {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btnProveedor))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(btnProducto)
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         pack();
@@ -83,6 +96,11 @@ public class HomeView extends javax.swing.JFrame implements Page {
         // TODO add your handling code here:
         this.router.moveToProveedorView();
     }//GEN-LAST:event_btnProveedorActionPerformed
+
+    private void btnProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductoActionPerformed
+        // TODO add your handling code here:
+          this.router.moveToProductoView();
+    }//GEN-LAST:event_btnProductoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,6 +148,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnProducto;
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables

@@ -302,6 +302,12 @@ public class ClienteView extends javax.swing.JFrame implements Page {
 
         lblFechaNacimiento.setText("Fecha de Nacimiento");
 
+        txtIdCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdClienteActionPerformed(evt);
+            }
+        });
+
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -684,6 +690,10 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         // TODO add your handling code here:
         ultimoRegistro(clientes);
     }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void txtIdClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdClienteActionPerformed
 
     /**
      * @param args the command line arguments

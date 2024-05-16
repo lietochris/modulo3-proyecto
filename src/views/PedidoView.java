@@ -568,6 +568,24 @@ private boolean validarCampos() {
                     "Error al guardar el pedido",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }//GEN-LAST:event_btnRegresarMenuActionPerformed
+
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+             try {
+            // TODO add your handling code here:
+            this.presenter.CreateReport();
+        } catch (Exception ex) {
+            Logger.getLogger(PedidoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnReporteActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
