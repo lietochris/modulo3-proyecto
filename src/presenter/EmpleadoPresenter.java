@@ -25,7 +25,7 @@ public class EmpleadoPresenter {
     /*Obtiene todos los registros*/
     public List<Empleado> FindAll() {
         var result = this.repository.findAll();
-        return !result.isError() ? new ArrayList<>() : result.value();
+        return result.value();
     }
     
     /*
@@ -40,14 +40,12 @@ public class EmpleadoPresenter {
     /* Crea un nuevo empleado */
     public Result<String> CrearEmpleado(Empleado nuevoEmpleado){
         var result = this.repository.findById(nuevoEmpleado.idEmpleado());
-        
-        if (result.isError() && result.error().code().equals("NOT_FOUND")) {
-            return new Result(Error.make("EMPLOYEE_EXISTS", "El empleado ya existe"));
+        if (result.isError()) {
+            var a = this.repository.create(nuevoEmpleado);
+            return new Result("Creado correctamente");
         }
 
-        this.repository.create(nuevoEmpleado); 
-
-        return new Result("El empleado fue creado correctamente");
+        return new Result(Error.make("CLIENT_EXISTS", result.error().message()));
     }
     
     /*Eliminar un empleado por id*/
