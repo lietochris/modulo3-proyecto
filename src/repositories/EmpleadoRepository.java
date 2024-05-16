@@ -124,8 +124,8 @@ public class EmpleadoRepository implements Repository<Empleado> {
             this.database.context().disconnect();
             return new Result(listOfClientes);
         } catch (Exception ex) {
-            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
-            return new Result(Error.make("DATABASE_ERROR", ex.toString()));
+            Logger.getLogger(EmpleadoRepository.class.getName()).log(Level.SEVERE, null, ex);
+            return new Result(Error.make("EXCEPTION", ex.toString()));
         }
     }
 
@@ -156,7 +156,7 @@ public class EmpleadoRepository implements Repository<Empleado> {
             this.database.context().disconnect();
             return new Result(cliente);
         } catch (Exception ex) {
-            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmpleadoRepository.class.getName()).log(Level.SEVERE, null, ex);
             return new Result(Error.make("DATABASE_ERROR", ex.toString()));
         }
     }
