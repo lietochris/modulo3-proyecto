@@ -389,6 +389,14 @@ private boolean validarCampos() {
             }
         });
 
+        txtidPedido.setToolTipText("ingresa idPedido");
+
+        txtCantidad.setToolTipText("Ingresa Cantidad");
+
+        txtFechaCreacion.setToolTipText("Ingresa Fecha dd/MM/yyyy");
+
+        txtObservaciones.setToolTipText("Ingresa Observaciones");
+
         btnRegresarMenu.setText("Regresar al Menu");
         btnRegresarMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -398,7 +406,10 @@ private boolean validarCampos() {
 
         lblTotalPago.setText("TotalPago");
 
+        txtTotalPago.setToolTipText("Ingresa Total de Pago");
+
         cmbEntregado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1" }));
+        cmbEntregado.setToolTipText("1 entregado, 0 No entregado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
