@@ -7,8 +7,6 @@ package views;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Estatus;
 import models.Proveedor;
@@ -330,6 +328,15 @@ public class ProveedorView extends javax.swing.JFrame implements Page {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        var respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Desea eliminar el registro?",
+                "Confirme su respuesta",
+                JOptionPane.YES_NO_OPTION);
+
+        if (respuesta == 1) {
+            return;
+        }
+
         try {
             var id = this.txtId.getText();
             Validator.isNotEmpty(id, this.lblId.getText());
