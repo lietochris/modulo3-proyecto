@@ -285,8 +285,9 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblProducto.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/producto.png"))); // NOI18N
         lblProducto.setText("Producto");
-        jPanel1.add(lblProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 14, 165, 40));
+        jPanel1.add(lblProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(204, 14, 300, 40));
 
         lblIdProducto.setText("idProducto");
         jPanel1.add(lblIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 69, -1, -1));
