@@ -36,6 +36,7 @@ public class HomeView extends javax.swing.JFrame implements Page {
         btnProducto = new javax.swing.JButton();
         btnPedido = new javax.swing.JButton();
         btnEmpleado = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,36 +77,43 @@ public class HomeView extends javax.swing.JFrame implements Page {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("MENU PRINCIPAL");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(jLabel1)
+                .addGap(0, 125, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnProveedor)
-                    .addComponent(btnEmpleado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPedido)
                     .addComponent(jButton1)
+                    .addComponent(btnProveedor)
+                    .addComponent(btnEmpleado)
                     .addComponent(btnProducto))
-                .addGap(126, 126, 126))
+                .addGap(150, 150, 150))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(btnProveedor))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnProducto)
-                    .addComponent(btnEmpleado))
-                .addGap(32, 32, 32)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(btnProveedor)
+                .addGap(18, 18, 18)
+                .addComponent(btnEmpleado)
+                .addGap(18, 18, 18)
+                .addComponent(btnProducto)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(btnPedido)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,5 +195,6 @@ public class HomeView extends javax.swing.JFrame implements Page {
     private javax.swing.JButton btnProducto;
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
