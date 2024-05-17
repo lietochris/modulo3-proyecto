@@ -101,16 +101,25 @@ public class ProveedorView extends javax.swing.JFrame implements Page {
 
         lblEstatus.setText("Estatus");
         jPanel1.add(lblEstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
+
+        txtId.setToolTipText("Id del proveedor");
         jPanel1.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 130, -1));
 
+        txtNombre.setToolTipText("Nombre del proveedor");
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
             }
         });
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, -1));
+
+        txtTelefono.setToolTipText("Telefono del proveedor");
         jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, -1));
+
+        txtFechaCreacion.setToolTipText("Fecha de creación en formato YYYY-mm-dd");
         jPanel1.add(txtFechaCreacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 130, -1));
+
+        txtCorreo.setToolTipText("Correo electrónico");
         jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, -1));
 
         btnNuevo.setText("Nuevo");
