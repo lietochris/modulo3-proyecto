@@ -5,10 +5,6 @@
 package presenter;
 
 import contexts.ManualMysqlContext;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
 import utils.Database;
 import utils.Error;
