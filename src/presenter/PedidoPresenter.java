@@ -32,8 +32,6 @@ public class PedidoPresenter {
      */
     public List<Pedido> FindAll() {
         var result = this.repositorio.findAll();
-
-
         return result.value();
     }
      /*
