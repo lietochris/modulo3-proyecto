@@ -285,15 +285,27 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdCliente">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Id del cliente"/>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdClienteActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNombreCliente">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Insertar el nombre del cliente"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApellidoP">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Apellido Paterno Cliente"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApellidoM">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Apellido Materno Cliente"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnNuevo">
           <Properties>
@@ -398,8 +410,14 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jdcFechaCreacion">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Fecha de Creaci&#xf3;n del cliente"/>
+          </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jdcFechaNacimiento">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Fecha de nacimiento del cliente"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
