@@ -40,10 +40,6 @@ from tiendashiny.pedido]]>
 	</background>
 	<title>
 		<band height="136" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="164" height="126" uuid="1ebcf1e1-d08f-4555-87a3-2ab284c01dc4"/>
-				<imageExpression><![CDATA["coffee.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement style="Title" x="270" y="0" width="263" height="62" uuid="adfa2e87-2517-4c71-8617-6962c9736701"/>
 				<textElement verticalAlignment="Middle">
@@ -65,10 +61,6 @@ from tiendashiny.pedido]]>
 				</textElement>
 				<text><![CDATA[Muestra un listado de los pedidos dados de alta en la tienda shiny]]></text>
 			</staticText>
-			<image>
-				<reportElement x="633" y="-73" width="219" height="209" uuid="4cff1159-6b24-433c-8309-5c27a4a264e8"/>
-				<imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
