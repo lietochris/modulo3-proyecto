@@ -1,7 +1,7 @@
 # Modulo 3 - Proyecto
 ## Integrantes
 - Aceves Gregorio Gerardo
-- Betzabel Hernandez Tania
+- Hernandez Uribe Tania Betzabel
 - Chavez Salazar Mayte
 - Juan Alfonso Zaida Arantza
 - Trevilla Figueroa Christopher
