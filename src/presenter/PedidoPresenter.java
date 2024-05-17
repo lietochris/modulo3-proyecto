@@ -64,10 +64,11 @@ public class PedidoPresenter {
      */
     public Result<String> DeletePedido(int id) {
         var result = this.repositorio.findById(id);
-
+        
         if (result.isError() && result.error().code().equals("NOT_FOUND")) {
             return new Result(Error.make("PEDIDO_NOT_EXISTS", "El pedido no existe"));
         }
+        this.repositorio.delete(id);
         return new Result("Eliminado correctamente");
     }
      /*
