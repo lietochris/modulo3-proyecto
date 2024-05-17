@@ -75,6 +75,13 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 txtApellidoP.setText(clienteActual.apellidoPaterno());
                 txtApellidoM.setText(clienteActual.apellidoMaterno());
                 LocalDateTime fechaCreacion = clienteActual.fechaCreacion();
+                
+                if (fechaCreacion != null) {
+                    Date fechaCreacionDate = Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant());  
+                    jdcFechaCreacion.setDate(fechaCreacionDate);
+                }
+                
+                
                 jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
 
                 LocalDate fechaNacimiento = clienteActual.fechaNacimiento();
