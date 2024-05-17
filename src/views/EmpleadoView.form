@@ -271,27 +271,15 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdEmpleado">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Id del empleado"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdEmpleadoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNombreEmpleado">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Nombre del empleado"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApellidoPaterno">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Apellido paterno"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApellidoMaterno">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Apellido Materno"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnNuevo">
           <Properties>
@@ -396,14 +384,8 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jdcFechaInicio">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="dd/mm/yyy"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCorreo">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Correo"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCorreoActionPerformed"/>
           </Events>
