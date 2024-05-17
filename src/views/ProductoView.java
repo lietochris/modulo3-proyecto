@@ -281,6 +281,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel1.setToolTipText("");
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblProducto.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -306,6 +307,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(lblFechaCreacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 277, -1, -1));
 
         txtIdProducto.setText("                                       ");
+        txtIdProducto.setToolTipText("idProducto");
         txtIdProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdProductoActionPerformed(evt);
@@ -314,11 +316,20 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(txtIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 66, -1, -1));
 
         txtNombreProducto.setText("                               ");
+        txtNombreProducto.setToolTipText("Nombre producto");
         jPanel1.add(txtNombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 102, 132, -1));
+
+        txtStock.setToolTipText("Stock");
         jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 145, 132, -1));
+
+        txtPrecio.setToolTipText("Precio");
         jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 185, 132, -1));
+
+        txtDescripcion.setToolTipText("Descripcion");
         jPanel1.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 219, 132, -1));
-        jPanel1.add(jdcFechaCreacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 277, 132, -1));
+
+        jdcFechaCreacion.setToolTipText("Fehca de creacion");
+        jPanel1.add(jdcFechaCreacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 277, 140, -1));
 
         btnPrimero.setText("Primero");
         btnPrimero.addActionListener(new java.awt.event.ActionListener() {
@@ -353,6 +364,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(btnUltimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(372, 392, -1, -1));
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.setToolTipText("");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -361,6 +373,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(368, 66, 83, -1));
 
         btnGuardar.setText("Guardar");
+        btnGuardar.setToolTipText("");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -369,6 +382,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 66, 83, -1));
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.setToolTipText("");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -377,6 +391,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(367, 116, 84, -1));
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.setToolTipText("");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -385,6 +400,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 116, 82, -1));
 
         btnEditar.setText("Editar");
+        btnEditar.setToolTipText("");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -393,6 +409,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 165, 82, -1));
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.setToolTipText("");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -402,6 +419,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
 
         btnReporte.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnReporte.setText("Imprimir Reporte");
+        btnReporte.setToolTipText("");
         btnReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteActionPerformed(evt);
@@ -411,6 +429,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
 
         btnMenu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnMenu.setText("Regresar al Menu");
+        btnMenu.setToolTipText("");
         btnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenuActionPerformed(evt);
@@ -418,7 +437,7 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         });
         jPanel1.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(399, 305, 173, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
