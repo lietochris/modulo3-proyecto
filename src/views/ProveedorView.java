@@ -81,8 +81,9 @@ public class ProveedorView extends javax.swing.JFrame implements Page {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/proveedor.png"))); // NOI18N
         jLabel1.setText("ENTIDAD PROVEEDOR");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 270, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 360, -1));
 
         lblId.setText("idProveedor");
         jPanel1.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
