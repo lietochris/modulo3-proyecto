@@ -62,6 +62,10 @@ public class LoginView extends javax.swing.JFrame implements Page {
             }
         });
 
+        pwdPassword.setToolTipText("Contrasena de BD");
+
+        txtUsuario.setToolTipText("Usuario de BD");
+
         javax.swing.GroupLayout panPrincipalLayout = new javax.swing.GroupLayout(panPrincipal);
         panPrincipal.setLayout(panPrincipalLayout);
         panPrincipalLayout.setHorizontalGroup(
