@@ -4,12 +4,11 @@
  */
 package views;
 
-import java.util.Properties;
 import javax.swing.JOptionPane;
 import presenter.LoginPresenter;
-import utils.Database;
 import utils.Page;
 import utils.Router;
+import utils.Validator;
 
 /**
  *
@@ -126,16 +125,27 @@ public class LoginView extends javax.swing.JFrame implements Page {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
 
-        // VAlidar el username
-        // Validar la contraseña
-        var result = this.presenter.signIn(this.txtUsuario.getText(), new String(this.pwdPassword.getPassword()));
-        if (result.isError()) {
-            JOptionPane.showMessageDialog(this, result.error().message(),
-                    "Error de conecxión",
+        try {
+            var username = this.txtUsuario.getText();
+            Validator.isNotEmpty(username, this.lblUsuario.getText());
+
+            var password = new String(this.pwdPassword.getPassword());
+            Validator.isNotEmpty(password, this.lblPassword.getText());
+            
+            var result = this.presenter.signIn(username, password);
+            if (result.isError()) {
+                JOptionPane.showMessageDialog(this, result.error().message(),
+                        "Error de conecxión",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            this.router.moveToHomeView();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),
+                    "Error en el formulario",
                     JOptionPane.ERROR_MESSAGE);
         }
-        
-        this.router.moveToHomeView();
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
