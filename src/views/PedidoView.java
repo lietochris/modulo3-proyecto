@@ -368,6 +368,11 @@ private boolean validarCampos() {
         });
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -663,6 +668,31 @@ private boolean validarCampos() {
         // TODO add your handling code here:
         this.llenarVentana();
     }//GEN-LAST:event_formComponentShown
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    if (validarCampos()) {
+            Pedido nuevoPedido = obtenerDatosPedido();
+        
+                    // Llamar al método CreateClient del presentador
+            Result<String> resultado = presenter.CreatePedido(nuevoPedido);
+
+            // Manejar el resultado devuelto por el método CreateClient
+            if (resultado.isError()) {
+                // Mostrar mensaje de error al usuario
+                JOptionPane.showMessageDialog(this, "Error: " + resultado.error().message());
+            } else {
+                // Mostrar mensaje de éxito al usuario
+                JOptionPane.showMessageDialog(this, "Pedido creado correctamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se pueden guardar el pedido.",
+                    "Error al guardar el pedido",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
