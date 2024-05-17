@@ -4,11 +4,8 @@
  */
 package views;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -18,8 +15,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Empleado;
 import presenter.EmpleadoPresenter;
-import repositories.EmpleadoRepository;
-import utils.Database;
 import utils.Page;
 import utils.Result;
 import utils.Router;
@@ -29,12 +24,12 @@ import utils.Router;
  * @author Christopher
  */
 public class EmpleadoView extends javax.swing.JFrame implements Page {
-    
+
     private Router router;
     private EmpleadoPresenter presenter;
-    private int indiceActual = 0; 
+    private int indiceActual = 0;
     private List<Empleado> empleado;
-    
+
     /**
      * Creates new form EmpleadoView
      */
@@ -42,7 +37,7 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
         initComponents();
 
     }
-    
+
     private void llenarVentana() {
         desactivarCampos();
         btnEliminar.setEnabled(false);
@@ -64,9 +59,9 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
             btnActualizar.setEnabled(false);
         }
     }
-    
+
     private void muestraRegistroActual(List<Empleado> empleado) {
-        if(!empleado.isEmpty()){
+        if (!empleado.isEmpty()) {
             if (indiceActual >= 0 && indiceActual < empleado.size()) {
                 Empleado empleadoActual = empleado.get(indiceActual);
                 txtIdEmpleado.setText(String.valueOf(empleadoActual.idEmpleado()));
@@ -80,7 +75,7 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
                 btnEditar.setEnabled(true);
                 btnEliminar.setEnabled(true);
             }
-        }else {
+        } else {
             nuevoRegistro();
             btnEliminar.setEnabled(false);
             btnEditar.setEnabled(false);
@@ -94,45 +89,45 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
         indiceActual = 0;
         muestraRegistroActual(empleado);
     }
-    
+
     private void anteriorRegistro(List<Empleado> empleado) {
         if (indiceActual > 0) {
             indiceActual--;
             muestraRegistroActual(empleado);
         }
     }
-    
+
     private void ultimoRegistro(List<Empleado> empleado) {
         indiceActual = empleado.size() - 1;
         muestraRegistroActual(empleado);
     }
-    
+
     private void siguienteRegistro(List<Empleado> empleado) {
         if (indiceActual < empleado.size() - 1) {
             indiceActual++;
             muestraRegistroActual(empleado);
         }
     }
-    
-     private Empleado obtenerDatosEmpleados() {
-        
-    DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    int idEmpleado = Integer.parseInt(txtIdEmpleado.getText()); 
-    String Nombre = txtNombreEmpleado.getText(); 
-    String ApellidoPaterno = txtApellidoPaterno.getText(); 
-    String ApellidoMaterno = txtApellidoMaterno.getText(); 
-    String Correo = txtCorreo.getText(); 
-    
-    Instant instantInicio = jdcFechaInicio.getDate().toInstant();
-    LocalDate FechaInicio = instantInicio.atZone(ZoneId.systemDefault()).toLocalDate();
-    jdcFechaInicio.setDate(Date.from(FechaInicio.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-    // Crear y devolver un objeto Cliente con los datos obtenidos
-    return new Empleado(idEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, Correo, FechaInicio);
-}
-    
-    private boolean validarCampos(){
-                boolean correcto = true;
+    private Empleado obtenerDatosEmpleados() {
+
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int idEmpleado = Integer.parseInt(txtIdEmpleado.getText());
+        String Nombre = txtNombreEmpleado.getText();
+        String ApellidoPaterno = txtApellidoPaterno.getText();
+        String ApellidoMaterno = txtApellidoMaterno.getText();
+        String Correo = txtCorreo.getText();
+
+        Instant instantInicio = jdcFechaInicio.getDate().toInstant();
+        LocalDate FechaInicio = instantInicio.atZone(ZoneId.systemDefault()).toLocalDate();
+        jdcFechaInicio.setDate(Date.from(FechaInicio.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+        // Crear y devolver un objeto Cliente con los datos obtenidos
+        return new Empleado(idEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, Correo, FechaInicio);
+    }
+
+    private boolean validarCampos() {
+        boolean correcto = true;
         try {
             Integer.parseInt(txtIdEmpleado.getText()); //numeros Enteros
             //Float.parseFloat(txtCredito.getText());//nmeros decimales
@@ -152,7 +147,7 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
             correcto = false;
             return correcto;
         }
- 
+
         if (txtApellidoPaterno.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Se deben introducir el Apellido Paterno del Empleado.",
@@ -169,36 +164,36 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
             correcto = false;
             return correcto;
         }
- 
-       try {
- 
+
+        try {
+
             Date fecha = new Date(jdcFechaInicio.getDate().getTime());
         } catch (Exception dte) {
             JOptionPane.showMessageDialog(this,
                     "Error, la fecha no es valida",
                     "Error en el campo Fecha Registro",
                     JOptionPane.ERROR_MESSAGE);
- 
+
             correcto = false;
             return correcto;
         }
-               
+
         return correcto;
     }
-    
-      private void nuevoRegistro() {
+
+    private void nuevoRegistro() {
         activarCampos();
         limpiarRegistros();
 
     }
-    
+
     private void activarCampos() {
         txtIdEmpleado.setEditable(true);
         txtNombreEmpleado.setEditable(true);
         txtApellidoPaterno.setEditable(true);
         txtApellidoMaterno.setEditable(true);
         txtCorreo.setEditable(true);
-        jdcFechaInicio.setVisible(true);  
+        jdcFechaInicio.setVisible(true);
     }
 
     private void desactivarCampos() {
@@ -209,7 +204,7 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
         txtCorreo.setEditable(false);
         jdcFechaInicio.setVisible(false);
     }
-    
+
     private void limpiarRegistros() {
         txtIdEmpleado.setText("");
         txtNombreEmpleado.setText("");
@@ -302,6 +297,11 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -536,11 +536,11 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-   if (validarCampos()) {
+        if (validarCampos()) {
             Empleado nuevoEmpleado = obtenerDatosEmpleados();
 
             // Llamar al método CreateClient del presentador
-            Result <String> resultado = presenter.CrearEmpleado(nuevoEmpleado);
+            Result<String> resultado = presenter.CrearEmpleado(nuevoEmpleado);
 
             // Manejar el resultado devuelto por el método CreateClient
             if (resultado.isError()) {
@@ -552,9 +552,9 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                "No se pueden guardar los datos del Empleado.",
-                "Error al guardar el Empleado",
-                JOptionPane.ERROR_MESSAGE);
+                    "No se pueden guardar los datos del Empleado.",
+                    "Error al guardar el Empleado",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -573,7 +573,7 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
             Empleado clienteActualizado = obtenerDatosEmpleados();
             int idCliente = clienteActualizado.idEmpleado();
             // Llamar al método CreateClient del presentador
-            Result<Empleado> resultado = presenter.UpdateEmployee(idCliente,clienteActualizado);
+            Result<Empleado> resultado = presenter.UpdateEmployee(idCliente, clienteActualizado);
 
             // Manejar el resultado devuelto por el método CreateClient
             if (resultado.isError()) {
@@ -586,9 +586,9 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
 
         } else {
             JOptionPane.showMessageDialog(this,
-                "No se pueden actualizar los datos del Empleado.",
-                "Error al actualizar el Empleado",
-                JOptionPane.ERROR_MESSAGE);
+                    "No se pueden actualizar los datos del Empleado.",
+                    "Error al actualizar el Empleado",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         desactivarCampos();
@@ -648,14 +648,39 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
         llenarVentana();
     }//GEN-LAST:event_formComponentShown
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+
+        var respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Desea eliminar el registro?",
+                "Confirme su respuesta",
+                JOptionPane.YES_NO_OPTION);
+
+        if (respuesta == 1) {
+            return;
+        }
+
+        var result = this.presenter.DeleteEmpleoyee(Integer.parseInt(this.txtIdEmpleado.getText()));
+        if (result.isError()) {
+            JOptionPane.showMessageDialog(this,
+                    result.error().message(),
+                    "Error al eliminar el Empleado",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Eliminado correctamente");
+        this.llenarVentana();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
     @Override
     public String pageName() {
-       return "EmpleadoView";
+        return "EmpleadoView";
     }
 
     @Override
     public void setRouter(Router router) {
-      this.router = router;
+        this.router = router;
     }
 
     public void setPresenter(EmpleadoPresenter presenter) {

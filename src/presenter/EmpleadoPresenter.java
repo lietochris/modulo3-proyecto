@@ -62,6 +62,8 @@ public class EmpleadoPresenter {
         if (result.isError() && result.error().code().equals("NOT_FOUND")) {
             return new Result(Error.make("EMPLOYEE_NOT_EXISTS", "El empleado no existe"));
         }
+        
+        this.repository.delete(id);
         return new Result("Empleado elimiando correctamente");
     }
     
