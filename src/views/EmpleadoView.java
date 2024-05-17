@@ -276,11 +276,18 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
 
         lblFechaNacimiento.setText("Fecha Inicio ");
 
+        txtIdEmpleado.setToolTipText("Id del empleado");
         txtIdEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdEmpleadoActionPerformed(evt);
             }
         });
+
+        txtNombreEmpleado.setToolTipText("Nombre del empleado");
+
+        txtApellidoPaterno.setToolTipText("Apellido paterno");
+
+        txtApellidoMaterno.setToolTipText("Apellido Materno");
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -368,6 +375,9 @@ public class EmpleadoView extends javax.swing.JFrame implements Page {
             }
         });
 
+        jdcFechaInicio.setToolTipText("dd/mm/yyy");
+
+        txtCorreo.setToolTipText("Correo");
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCorreoActionPerformed(evt);
