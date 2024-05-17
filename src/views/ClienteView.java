@@ -4,8 +4,6 @@
  */
 package views;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,8 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Cliente;
 import presenter.ClientePresenter;
-import repositories.ClienteRepository;
-import utils.Database;
 import utils.Page;
 import utils.Result;
 import utils.Router;
@@ -32,7 +28,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
 
     private Router router;
     private ClientePresenter presenter;
-    private int indiceActual = 0; 
+    private int indiceActual = 0;
     private List<Cliente> clientes;
 
     /**
@@ -40,10 +36,10 @@ public class ClienteView extends javax.swing.JFrame implements Page {
      */
     public ClienteView() {
         //prueba commit
-        
+
         initComponents();
     }
-    
+
     private void llenarVentana() {
         desactivarCampos();
         btnEliminar.setEnabled(false);
@@ -65,9 +61,9 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             btnActualizar.setEnabled(false);
         }
     }
-    
+
     private void muestraRegistroActual(List<Cliente> clientes) {
-        if(!clientes.isEmpty()){
+        if (!clientes.isEmpty()) {
             if (indiceActual >= 0 && indiceActual < clientes.size()) {
                 Cliente clienteActual = clientes.get(indiceActual);
                 txtIdCliente.setText(String.valueOf(clienteActual.idCliente()));
@@ -75,13 +71,12 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 txtApellidoP.setText(clienteActual.apellidoPaterno());
                 txtApellidoM.setText(clienteActual.apellidoMaterno());
                 LocalDateTime fechaCreacion = clienteActual.fechaCreacion();
-                
+
                 if (fechaCreacion != null) {
-                    Date fechaCreacionDate = Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant());  
+                    Date fechaCreacionDate = Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant());
                     jdcFechaCreacion.setDate(fechaCreacionDate);
                 }
-                
-                
+
                 jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
 
                 LocalDate fechaNacimiento = clienteActual.fechaNacimiento();
@@ -90,7 +85,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 btnEditar.setEnabled(true);
                 btnEliminar.setEnabled(true);
             }
-        }else {
+        } else {
             nuevoRegistro();
             btnEliminar.setEnabled(false);
             btnEditar.setEnabled(false);
@@ -99,53 +94,53 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             btnCancelar.setEnabled(false);
         }
     }
-    
+
     private void primerRegistro(List<Cliente> clientes) {
         indiceActual = 0;
         muestraRegistroActual(clientes);
     }
-    
+
     private void anteriorRegistro(List<Cliente> clientes) {
         if (indiceActual > 0) {
             indiceActual--;
             muestraRegistroActual(clientes);
         }
     }
-    
+
     private void ultimoRegistro(List<Cliente> clientes) {
         indiceActual = clientes.size() - 1;
         muestraRegistroActual(clientes);
     }
-    
+
     private void siguienteRegistro(List<Cliente> clientes) {
         if (indiceActual < clientes.size() - 1) {
             indiceActual++;
             muestraRegistroActual(clientes);
         }
     }
-    
-    private Cliente obtenerDatosCliente() {
-        
-    DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    int idCliente = Integer.parseInt(txtIdCliente.getText()); 
-    String nombreCliente = txtNombreCliente.getText(); 
-    String apellidoP = txtApellidoP.getText(); 
-    String apellidoM = txtApellidoM.getText(); 
-    
-    Instant instant = jdcFechaCreacion.getDate().toInstant();
-    LocalDateTime fechaCreacion = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-    jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
-    
-    Instant instantNacimiento = jdcFechaNacimiento.getDate().toInstant();
-    LocalDate fechaNacimiento = instantNacimiento.atZone(ZoneId.systemDefault()).toLocalDate();
-    jdcFechaCreacion.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-    // Crear y devolver un objeto Cliente con los datos obtenidos
-    return new Cliente(idCliente, nombreCliente, apellidoP, apellidoM, fechaCreacion, fechaNacimiento);
-}
-    
-    private boolean validarCampos(){
-                boolean correcto = true;
+    private Cliente obtenerDatosCliente() {
+
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        int idCliente = Integer.parseInt(txtIdCliente.getText());
+        String nombreCliente = txtNombreCliente.getText();
+        String apellidoP = txtApellidoP.getText();
+        String apellidoM = txtApellidoM.getText();
+
+        Instant instant = jdcFechaCreacion.getDate().toInstant();
+        LocalDateTime fechaCreacion = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        jdcFechaCreacion.setDate(Date.from(fechaCreacion.atZone(ZoneId.systemDefault()).toInstant()));
+
+        Instant instantNacimiento = jdcFechaNacimiento.getDate().toInstant();
+        LocalDate fechaNacimiento = instantNacimiento.atZone(ZoneId.systemDefault()).toLocalDate();
+        jdcFechaCreacion.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+        // Crear y devolver un objeto Cliente con los datos obtenidos
+        return new Cliente(idCliente, nombreCliente, apellidoP, apellidoM, fechaCreacion, fechaNacimiento);
+    }
+
+    private boolean validarCampos() {
+        boolean correcto = true;
         try {
             Integer.parseInt(txtIdCliente.getText()); //numeros Enteros
             //Float.parseFloat(txtCredito.getText());//nmeros decimales
@@ -165,7 +160,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             correcto = false;
             return correcto;
         }
- 
+
         if (txtApellidoP.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Se deben introducir el Apellido Paterno del cliente.",
@@ -182,7 +177,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             correcto = false;
             return correcto;
         }
- 
+
         try {
             LocalDateTime fechaCreacion = LocalDateTime.ofInstant(jdcFechaCreacion.getDate().toInstant(), ZoneId.systemDefault());
         } catch (Exception ex) {
@@ -208,20 +203,20 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         }
         return correcto;
     }
-    
+
     private void nuevoRegistro() {
         activarCampos();
         limpiarRegistros();
 
     }
-    
+
     private void activarCampos() {
         txtIdCliente.setEditable(true);
         txtNombreCliente.setEditable(true);
         txtApellidoP.setEditable(true);
         txtApellidoM.setEditable(true);
-        jdcFechaCreacion.setVisible(true);  
-        jdcFechaNacimiento.setVisible(true);  
+        jdcFechaCreacion.setVisible(true);
+        jdcFechaNacimiento.setVisible(true);
     }
 
     private void desactivarCampos() {
@@ -232,7 +227,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         jdcFechaCreacion.setVisible(false);
         jdcFechaNacimiento.setVisible(false);
     }
-    
+
     private void limpiarRegistros() {
         txtIdCliente.setText("");
         txtNombreCliente.setText("");
@@ -554,11 +549,11 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
+
         if (validarCampos()) {
             Cliente nuevoCliente = obtenerDatosCliente();
-        
-                    // Llamar al método CreateClient del presentador
+
+            // Llamar al método CreateClient del presentador
             Result<String> resultado = presenter.CreateClient(nuevoCliente);
 
             // Manejar el resultado devuelto por el método CreateClient
@@ -575,7 +570,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                     "Error al guardar el cliente",
                     JOptionPane.ERROR_MESSAGE);
         }
-                
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
@@ -590,7 +585,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         nuevoRegistro();
         btnGuardar.setEnabled(true);
-        btnCancelar.setEnabled(true);  
+        btnCancelar.setEnabled(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -610,12 +605,12 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-                int respuesta = JOptionPane.showConfirmDialog(this,
+        int respuesta = JOptionPane.showConfirmDialog(this,
                 "¿Desea eliminar el registro del cliente?",
                 "Confirme su respuesta",
-                JOptionPane.YES_NO_OPTION);
+                JOptionPane.YES_NO_OPTION); 
         if (respuesta == 0) {
-            int idCliente = Integer.parseInt(txtIdCliente.getText()); 
+            int idCliente = Integer.parseInt(txtIdCliente.getText());
             Result<String> resultado = presenter.DeleteClient(idCliente);
 
             // Manejar el resultado devuelto por el método CreateClient
@@ -631,6 +626,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
         }
         desactivarCampos();
         limpiarRegistros();
+        this.llenarVentana();
         //llenarVentana("cliente_net");
         btnEliminar.setEnabled(false);
         btnGuardar.setEnabled(false);
@@ -643,7 +639,7 @@ public class ClienteView extends javax.swing.JFrame implements Page {
             Cliente clienteActualizado = obtenerDatosCliente();
             int idCliente = clienteActualizado.idCliente();
             // Llamar al método CreateClient del presentador
-            Result<Cliente> resultado = presenter.UpdateClient(idCliente,clienteActualizado);
+            Result<Cliente> resultado = presenter.UpdateClient(idCliente, clienteActualizado);
 
             // Manejar el resultado devuelto por el método CreateClient
             if (resultado.isError()) {
@@ -705,8 +701,6 @@ public class ClienteView extends javax.swing.JFrame implements Page {
     /**
      * @param args the command line arguments
      */
-
-
     @Override
     public String pageName() {
         return "ClienteView";
