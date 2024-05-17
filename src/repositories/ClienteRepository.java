@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import models.Cliente;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import utils.Database;
 import utils.Result;
@@ -168,13 +169,15 @@ public class ClienteRepository implements Repository<Cliente> {
     public void generateReport() {
         try {
             this.database.context().connect();
-            
-            var report = JasperCompileManager.compileReport("src/reports/ClienteReport.jrxml");
-            
+
+            var inputStream = getClass().getResourceAsStream("/reports/ClienteReport.jrxml");
+            var design = JRXmlLoader.load(inputStream);
+            var report = JasperCompileManager.compileReport(design);
+
             var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
             var jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setVisible(true);
-            
+
             this.database.context().disconnect();
         } catch (Exception ex) {
             Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);

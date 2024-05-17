@@ -14,6 +14,7 @@ import java.util.List;
 import models.Producto;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import utils.Database;
 import utils.Error;
@@ -164,15 +165,17 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public void generateReport() {
-            try {
+        try {
             this.database.context().connect();
-            
-            var report = JasperCompileManager.compileReport("src/reports/ProductoReport.jrxml");
-            
+
+            var inputStream = getClass().getResourceAsStream("/reports/ProductoReport.jrxml");
+            var design = JRXmlLoader.load(inputStream);
+            var report = JasperCompileManager.compileReport(design);
+
             var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
             var jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setVisible(true);
-            
+
             this.database.context().disconnect();
         } catch (Exception ex) {
             Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);

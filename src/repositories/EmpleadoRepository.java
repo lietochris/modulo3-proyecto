@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import models.Empleado;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import utils.Database;
 import utils.Result;
@@ -163,15 +164,17 @@ public class EmpleadoRepository implements Repository<Empleado> {
 
     @Override
     public void generateReport() {
-            try {
+        try {
             this.database.context().connect();
-            
-            var report = JasperCompileManager.compileReport("src/reports/EmpleadoReport.jrxml");
-            
+
+            var inputStream = getClass().getResourceAsStream("/reports/EmpleadoReport.jrxml");
+            var design = JRXmlLoader.load(inputStream);
+            var report = JasperCompileManager.compileReport(design);
+
             var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
             var jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setVisible(true);
-            
+
             this.database.context().disconnect();
         } catch (Exception ex) {
             Logger.getLogger(EmpleadoRepository.class.getName()).log(Level.SEVERE, null, ex);

@@ -15,6 +15,7 @@ import models.Estatus;
 import models.Proveedor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import utils.Database;
 import utils.Result;
@@ -164,15 +165,17 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void generateReport() {
-            try {
+        try {
             this.database.context().connect();
-            
-            var report = JasperCompileManager.compileReport("src/reports/ProveedorReport.jrxml");
-            
+
+            var inputStream = getClass().getResourceAsStream("/reports/ProveedorReport.jrxml");
+            var design = JRXmlLoader.load(inputStream);
+            var report = JasperCompileManager.compileReport(design);
+
             var jasperPrint = JasperFillManager.fillReport(report, new HashMap(), this.database.context().connection());
             var jasperViewer = new JasperViewer(jasperPrint, false);
             jasperViewer.setVisible(true);
-            
+
             this.database.context().disconnect();
         } catch (Exception ex) {
             Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, null, ex);
