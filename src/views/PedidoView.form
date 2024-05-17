@@ -331,12 +331,24 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtidPedido">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="ingresa idPedido"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCantidad">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Ingresa Cantidad"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtFechaCreacion">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Ingresa Fecha dd/MM/yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtObservaciones">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Ingresa Observaciones"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnRegresarMenu">
           <Properties>
@@ -352,6 +364,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTotalPago">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Ingresa Total de Pago"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbEntregado">
           <Properties>
@@ -361,6 +376,7 @@
                 <StringItem index="1" value="1"/>
               </StringArray>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="1 entregado, 0 No entregado"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

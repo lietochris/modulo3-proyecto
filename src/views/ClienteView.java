@@ -304,11 +304,18 @@ public class ClienteView extends javax.swing.JFrame implements Page {
 
         lblFechaNacimiento.setText("Fecha de Nacimiento");
 
+        txtIdCliente.setToolTipText("Id del cliente");
         txtIdCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdClienteActionPerformed(evt);
             }
         });
+
+        txtNombreCliente.setToolTipText("Insertar el nombre del cliente");
+
+        txtApellidoP.setToolTipText("Apellido Paterno Cliente");
+
+        txtApellidoM.setToolTipText("Apellido Materno Cliente");
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -395,6 +402,10 @@ public class ClienteView extends javax.swing.JFrame implements Page {
                 btnUltimoActionPerformed(evt);
             }
         });
+
+        jdcFechaCreacion.setToolTipText("Fecha de Creación del cliente");
+
+        jdcFechaNacimiento.setToolTipText("Fecha de nacimiento del cliente");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
