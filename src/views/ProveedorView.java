@@ -397,6 +397,7 @@ public class ProveedorView extends javax.swing.JFrame implements Page {
             }
 
             JOptionPane.showMessageDialog(this, "Proveedor actualizado correctamente");
+            this.reloadAllRecords();
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,
