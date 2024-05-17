@@ -246,13 +246,13 @@ public class ProductoView extends javax.swing.JFrame implements Page {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblProducto = new javax.swing.JLabel();
+        lblIdProducto = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblStock = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
+        lblDescripccion = new javax.swing.JLabel();
+        lblFechaCreacion = new javax.swing.JLabel();
         txtIdProducto = new javax.swing.JTextField();
         txtNombreProducto = new javax.swing.JTextField();
         txtStock = new javax.swing.JTextField();
@@ -283,27 +283,27 @@ public class ProductoView extends javax.swing.JFrame implements Page {
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Producto");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 14, 165, 40));
+        lblProducto.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblProducto.setText("Producto");
+        jPanel1.add(lblProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 14, 165, 40));
 
-        jLabel2.setText("idProducto");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 69, -1, -1));
+        lblIdProducto.setText("idProducto");
+        jPanel1.add(lblIdProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 69, -1, -1));
 
-        jLabel3.setText("Nombre");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 105, -1, -1));
+        lblNombre.setText("Nombre");
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 105, -1, -1));
 
-        jLabel4.setText("Stock");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 148, -1, -1));
+        lblStock.setText("Stock");
+        jPanel1.add(lblStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 148, -1, -1));
 
-        jLabel5.setText("Precio");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 188, -1, -1));
+        lblPrecio.setText("Precio");
+        jPanel1.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 188, -1, -1));
 
-        jLabel6.setText("Descripcion");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 222, -1, -1));
+        lblDescripccion.setText("Descripcion");
+        jPanel1.add(lblDescripccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 222, -1, -1));
 
-        jLabel7.setText("FechaCreacion");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 277, -1, -1));
+        lblFechaCreacion.setText("FechaCreacion");
+        jPanel1.add(lblFechaCreacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 277, -1, -1));
 
         txtIdProducto.setText("                                       ");
         txtIdProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -603,15 +603,15 @@ public class ProductoView extends javax.swing.JFrame implements Page {
     private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private com.toedter.calendar.JDateChooser jdcFechaCreacion;
+    private javax.swing.JLabel lblDescripccion;
+    private javax.swing.JLabel lblFechaCreacion;
+    private javax.swing.JLabel lblIdProducto;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPrecio;
+    private javax.swing.JLabel lblProducto;
+    private javax.swing.JLabel lblStock;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtNombreProducto;
